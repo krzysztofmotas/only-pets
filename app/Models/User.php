@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -18,8 +17,14 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
+        'display_name',
         'email',
         'password',
+        'bio',
+        'location',
+        'website_url',
+        'picture',
+        'profile_background',
     ];
 
     /**
@@ -43,5 +48,20 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public static function generateUniqueName($displayName)
+    {
+        $name = strtolower(str_replace(' ', '', $displayName));
+
+        $originalName = $name;
+        $counter = 1;
+
+        while (self::where('name', $name)->exists()) {
+            $counter++;
+            $name = $originalName . $counter;
+        }
+
+        return $name;
     }
 }
