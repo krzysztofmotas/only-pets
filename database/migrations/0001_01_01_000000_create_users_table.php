@@ -13,18 +13,17 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('display_name');
+            $table->string('name', 24)->unique();
+            $table->string('display_name', 40);
             $table->string('email')->unique();
             $table->string('password');
-            $table->string('bio')->nullable();
-            $table->string('location')->nullable();
-            $table->string('website_url')->nullable();
+            $table->string('bio', 1000)->nullable();
+            $table->string('location', 64)->nullable();
+            $table->string('website_url', 100)->nullable();
             $table->string('picture')->nullable();
             $table->string('profile_background')->nullable();
 
             // TODO: role_id
-            // TODO: dodać odpowiednie rozmiary
 
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

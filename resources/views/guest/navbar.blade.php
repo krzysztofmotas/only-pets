@@ -9,17 +9,13 @@
 
         <div class="collapse navbar-collapse" id="navbarToggler">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-                @if (Route::has('login'))
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('login') }}">Zaloguj się</a>
-                    </li>
-                @endif
+                <li class="nav-item">
+                    <a class="nav-link" href="{{ route('login') }}">Zaloguj się</a>
+                </li>
 
-                @if (Route::has('register'))
-                    <li class="nav-item">
-                        <a class="btn btn-outline-primary" href="{{ route('register') }}">Zarejestruj się</a>
-                    </li>
-                @endif
+                <li class="nav-item">
+                    <a class="btn btn-outline-primary" href="{{ route('register') }}">Zarejestruj się</a>
+                </li>
             </ul>
         </div>
     </div>
