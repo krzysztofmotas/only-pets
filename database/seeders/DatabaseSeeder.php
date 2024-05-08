@@ -17,6 +17,11 @@ class DatabaseSeeder extends Seeder
         $this->call([
             UserSeeder::class,
             RoleSeeder::class,
+            PostSeeder::class,
+            PostAttachmentSeeder::class,
+            ReactionSeeder::class,
+            PostReactionSeeder::class,
+            PostCommentSeeder::class,
         ]);
 
         // User::factory(10)->create();

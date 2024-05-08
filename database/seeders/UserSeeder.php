@@ -13,7 +13,7 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::truncate();
+        User::query()->delete(); // Zamiast ::truncate() ze względu na ograniczenia kluczów obcych.
 
         $seederPassword = Hash::make('1234');
         $users = [

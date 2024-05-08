@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Database\Seeders\RoleSeeder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -29,6 +29,7 @@ class User extends Authenticatable
         'website_url',
         'picture',
         'profile_background',
+        'role_id',
     ];
 
     /**
@@ -72,5 +73,10 @@ class User extends Authenticatable
     public function isAdmin(): bool
     {
         return $this->role_id == User::ROLE_ADMIN;
+    }
+
+    public function posts(): HasMany
+    {
+        return $this->hasMany(Post::class);
     }
 }
