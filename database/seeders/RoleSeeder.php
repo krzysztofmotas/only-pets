@@ -24,14 +24,6 @@ class RoleSeeder extends Seeder
             ['id' => User::ROLE_ADMIN, 'name' => 'admin']
         ]);
 
-        DB::table('users')->whereNull('role_id')->update([
-            'role_id' => User::ROLE_USER
-        ]);
-
-        DB::table('users')->where('id', '1')->update([
-            'role_id' => User::ROLE_ADMIN
-        ]);
-
         Schema::table('users', function (Blueprint $table) {
             $table->unsignedBigInteger('role_id')->default(User::ROLE_USER)->change();
         });
