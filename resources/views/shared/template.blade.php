@@ -19,11 +19,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
     <script defer src="{{ asset('js/bootstrap.bundle.js') }}"></script>
+    @stack('head-scripts')
 </head>
 
 <body>
     @yield('body-content')
-    @yield('body-scripts')
+    @stack('body-scripts')
 </body>
 
 </html>

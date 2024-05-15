@@ -1,7 +1,5 @@
 @extends('shared.template')
 
-@section('head-csrf')
-
 @section('body-content')
     <div class="container vh-100">
         <div class="row h-100">
