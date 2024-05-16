@@ -3,7 +3,7 @@
 @section('head-csrf')
 
     @push('head-scripts')
-        <script type="module" src="https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
     @endpush
 
 @section('center-column')
@@ -49,12 +49,29 @@
         const textarea = document.getElementById('post-textarea');
         const submitButton = document.getElementById('post-submit-button');
 
-        textarea.addEventListener('change', () => {
+        textarea.addEventListener('keyup', () => {
             submitButton.toggleAttribute("disabled", !textarea.value.trim().length > 0);
         });
 
+        const htmlElement = document.querySelector('html');
+        const theme = htmlElement.getAttribute('data-bs-theme');
+
         const emojiButton = document.getElementById('post-emoji-button');
-        const emojiPicker = document.createElement('emoji-picker');
+        const pickerOptions = {
+            onEmojiSelect: onClickEmoji,
+            locale: 'pl',
+            theme: theme,
+            emojiButtonColors: [
+                'rgba(155, 223, 88, .7)',
+                'rgba(149, 211, 254, .7)',
+                'rgba(247, 233, 34, .7)',
+                'rgba(238, 166, 252, .7)',
+                'rgba(255, 213, 143, .7)',
+                'rgba(211, 209, 255, .7)',
+            ],
+        }
+        const emojiPicker = new EmojiMart.Picker(pickerOptions)
+
         let emojiPickerVisible = false;
 
         emojiButton.addEventListener('click', (event) => {
@@ -82,12 +99,12 @@
             }
         });
 
-        emojiPicker.addEventListener('emoji-click', (event) => {
-            const emoji = event.detail.unicode;
-            textarea.append(emoji);
+        function onClickEmoji(event) {
+            const emoji = event.native;
+            textarea.value += emoji;
 
             submitButton.disabled = false;
-        });
+        }
     </script>
 @endpush
 
