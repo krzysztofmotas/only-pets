@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Seeder;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Schema;
 
 class UserSeeder extends Seeder
 {
@@ -13,7 +14,9 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::query()->delete(); // Zamiast ::truncate() ze względu na ograniczenia kluczów obcych.
+        Schema::withoutForeignKeyConstraints(function () {
+            User::truncate();
+        });
 
         $seederPassword = Hash::make('1234');
         $users = [
@@ -77,5 +80,11 @@ class UserSeeder extends Seeder
         ];
 
         User::insert($users);
+
+        $user = User::find(1);
+        if ($user) {
+            $user->role_id = User::ROLE_ADMIN;
+            $user->save();
+        }
     }
 }

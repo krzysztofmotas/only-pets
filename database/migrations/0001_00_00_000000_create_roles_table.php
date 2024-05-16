@@ -15,10 +15,6 @@ return new class extends Migration
             $table->id();
             $table->string('name', 10)->unique();
         });
-
-        Schema::table('users', function (Blueprint $table) {
-            $table->foreignId('role_id')->constrained();
-        });
     }
 
     /**

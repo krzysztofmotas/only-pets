@@ -10,20 +10,25 @@
     <div class="row">
         <div class="col">
             <div class="card">
-                <form method="POST" action="{{ route('post.store') }}">
+                <form method="post" action="{{ route('post.store') }}">
                     @csrf
                     <div class="card-body">
-                        <textarea id="post-textarea" required name="text" class="form-control" rows="2" placeholder="Co masz na myśli?"></textarea>
+                        <textarea id="post-textarea" required name="text" class="form-control fs-5" rows="2"
+                            placeholder="Co masz na myśli?"></textarea>
                     </div>
                     <div class="card-footer">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <button type="button" class="btn btn-link pe-0">
-                                    <i class="bi bi-images fs-5 me-2"></i>
-                                </button>
+                                <input type="file" id="post-attachments-input" class="d-none">
+
+                                <label for="post-attachments-input" class="btn btn-link pe-0">
+                                    <i class="bi bi-images fs-5 me-2" data-bs-toggle="tooltip"
+                                        data-bs-title="Załączniki"></i>
+                                </label>
 
                                 <button id="post-emoji-button" type="button" class="btn btn-link ps-0">
-                                    <i class="bi bi-emoji-smile-fill fs-5"></i>
+                                    <i class="bi bi-emoji-smile-fill fs-5" data-bs-toggle="tooltip"
+                                        data-bs-title="Emoji"></i>
                                 </button>
                             </div>
                             <div>

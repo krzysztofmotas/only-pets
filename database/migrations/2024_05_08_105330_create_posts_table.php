@@ -15,7 +15,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignIdFor(User::class)->constrained();
-            $table->text('text')->nullable(); // TODO: edytor tekstu, z formatowaniem.
+            $table->text('text')->nullable();
             $table->timestamps();
         });
     }

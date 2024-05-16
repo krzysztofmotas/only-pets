@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('role_id')->constrained('roles');
             $table->string('name', 24)->unique();
             $table->string('display_name', 40);
             $table->string('email')->unique();
@@ -22,9 +23,6 @@ return new class extends Migration
             $table->string('website_url', 100)->nullable();
             $table->string('picture')->nullable();
             $table->string('profile_background')->nullable();
-
-            // TODO: role_id
-
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

@@ -14,8 +14,8 @@ return new class extends Migration
     {
         Schema::create('subscriptions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(User::class, 'subscriber_user_id')->constrained();
-            $table->foreignIdFor(User::class, 'subscribed_user_id')->constrained();
+            $table->foreignId('subscriber_user_id')->constrained('users');
+            $table->foreignId('subscribed_user_id')->constrained('users');
             $table->integer('price');
             $table->date('started_at')->default(now());
             $table->date('end_at');

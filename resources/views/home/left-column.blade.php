@@ -35,9 +35,17 @@
                 <i class="bi bi-gear fs-5 me-2"></i>
                 Ustawienia
             </a>
+
+            @can('admin')
+                <a class="dropdown-item" href="#">
+                    <i class="bi bi-sliders fs-5 me-2 text-danger"></i>
+                    Panel administratora
+                </a>
+            @endcan
+
             <div class="dropdown-divider"></div>
 
-            <form action="{{ route('logout') }}" method="POST">
+            <form action="{{ route('logout') }}" method="post">
                 @csrf
                 <button type="submit" class="dropdown-item">
                     <i class="bi bi-box-arrow-left fs-5 me-2"></i>

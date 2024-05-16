@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
+use App\Models\Reaction;
 
 class ReactionSeeder extends Seeder
 {
@@ -14,10 +14,10 @@ class ReactionSeeder extends Seeder
     public function run(): void
     {
         Schema::withoutForeignKeyConstraints(function () {
-            DB::table('reactions')->truncate();
+            Reaction::truncate();
         });
 
-        DB::table('reactions')->insert([
+        Reaction::insert([
             ['name' => 'Lubię to!', 'emoji' => '👍'],
             ['name' => 'Super', 'emoji' => '❤️'],
             ['name' => 'Haha', 'emoji' => '😂'],
