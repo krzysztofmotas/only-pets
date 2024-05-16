@@ -15,11 +15,14 @@
                     <div class="card-body">
                         <textarea id="post-textarea" required name="text" class="form-control fs-5" rows="2"
                             placeholder="Co masz na myśli?"></textarea>
+
+                        <div id="post-errors-container"></div>
                     </div>
                     <div class="card-footer">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <input type="file" id="post-attachments-input" class="d-none">
+                                {{-- Accept any file with an image/* MIME type. (Many mobile devices also let the user take a picture with the camera when this is used.) --}}
+                                <input type="file" id="post-attachments-input" accept="image/*" multiple class="d-none">
 
                                 <label for="post-attachments-input" class="btn btn-link pe-0">
                                     <i class="bi bi-images fs-5 me-2" data-bs-toggle="tooltip"
@@ -51,11 +54,67 @@
 
 @push('body-scripts')
     <script>
-        const textarea = document.getElementById('post-textarea');
+        const fileTypes = [
+            "image/apng",
+            "image/bmp",
+            "image/gif",
+            "image/jpeg",
+            "image/pjpeg",
+            "image/png",
+            "image/svg+xml",
+            "image/tiff",
+            "image/webp",
+            "image/x-icon",
+        ];
+
+        function validFileType(file) {
+            return fileTypes.includes(file.type);
+        }
+
+        const postAttachmentsInput = document.getElementById('post-attachments-input');
         const submitButton = document.getElementById('post-submit-button');
 
+        postAttachmentsInput.addEventListener('change', (event) => {
+            const files = event.target.files;
+            const errors = [];
+
+            for (const file of files) {
+                console.log(file.name);
+
+                if (!validFileType(file)) {
+                    errors.push(`Nieprawidłowy typ pliku ${file.name}.`);
+                    continue;
+                }
+
+                if (file.size > 7000) {
+                    errors.push(`Rozmiar pliku ${file.name} przekracza limit 7MB.`);
+                    continue;
+                }
+
+                submitButton.disabled = false;
+            }
+
+            const errorContainer = document.getElementById('post-errors-container');
+
+            if (errorContainer.innerHTML !== '') {
+                errorContainer.innerHTML = '';
+            }
+
+            for (const error of errors) {
+                const p = document.createElement('p');
+                p.classList.add('text-danger');
+                p.classList.add('mb-0');
+                p.textContent = error;
+
+                errorContainer.appendChild(p);
+            }
+
+            errorContainer.classList.toggle('mt-3', errors.length > 0);
+        });
+
+        const textarea = document.getElementById('post-textarea');
         textarea.addEventListener('keyup', () => {
-            submitButton.toggleAttribute("disabled", !textarea.value.trim().length > 0);
+            submitButton.toggleAttribute('disabled', !textarea.value.trim().length > 0);
         });
 
         const htmlElement = document.querySelector('html');
