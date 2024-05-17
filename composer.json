@@ -12,6 +12,7 @@
         "laravel/ui": "^4.5"
     },
     "require-dev": {
+        "barryvdh/laravel-debugbar": "^3.13",
         "fakerphp/faker": "^1.23",
         "laravel-lang/common": "^6.2",
         "laravel/pint": "^1.13",
