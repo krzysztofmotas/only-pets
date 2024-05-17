@@ -16,21 +16,23 @@
                         <div id="post-carousel" class="carousel slide my-3 d-none">
                             <div id="post-carousel-attachments-container" class="carousel-inner"></div>
 
-                            <button class="carousel-control-prev" type="button" data-bs-target="#post-carousel"
-                                data-bs-slide="prev">
-                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Poprzedni</span>
-                            </button>
-                            <button class="carousel-control-next" type="button" data-bs-target="#post-carousel"
-                                data-bs-slide="next">
-                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                <span class="visually-hidden">Następny</span>
-                            </button>
+                            <div id="post-carousel-controls-container" class="d-none">
+                                <button class="carousel-control-prev" type="button" data-bs-target="#post-carousel"
+                                    data-bs-slide="prev">
+                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Poprzedni</span>
+                                </button>
+                                <button class="carousel-control-next" type="button" data-bs-target="#post-carousel"
+                                    data-bs-slide="next">
+                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                    <span class="visually-hidden">Następny</span>
+                                </button>
+                            </div>
 
                             <div id="post-errors-container"></div>
                         </div>
 
-                        <div class="card-footer mt-3">
+                        <div class="card-footer border mt-3">
                             <div class="d-flex justify-content-between align-items-center">
                                 <div>
                                     {{-- Accept any file with an image/* MIME type. (Many mobile devices also let the user take a picture with the camera when this is used.) --}}
@@ -92,6 +94,7 @@
         const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
         const attachmentsContainer = document.getElementById('post-carousel-attachments-container');
         const carousel = document.getElementById('post-carousel');
+        const controlsContainer = document.getElementById('post-carousel-controls-container');
 
         const attachments = [];
 
@@ -146,21 +149,26 @@
                     // continue;
                 }
                 const blobUrl = URL.createObjectURL(file);
+                attachments.push(blobUrl);
 
                 // <div class="carousel-item active">
                 const carouselItem = document.createElement('div');
                 carouselItem.classList.add('carousel-item');
 
-                // Jeśli lista załączników jest pusta, to pierwszemu załącznikowi dodamy klasę active.
-                if (!attachments.length) {
-                    carouselItem.classList.add('active');
+                switch (attachments.length) {
+                    case 1:
+                        carouselItem.classList.add('active');
+                        break;
+                    case 2:
+                        controlsContainer.classList.remove('d-none');
+                        break;
                 }
 
-                // <img src="" class="d-block w-100" alt="...">
+                // <img src="" class="img-thumbnail" alt="...">
                 const img = document.createElement('img');
                 img.src = blobUrl;
                 img.alt = file.name;
-                img.classList.add('d-block', 'w-100');
+                img.classList.add('img-thumbnail');
                 carouselItem.append(img);
 
                 // <div class="carousel-caption d-block bottom-0">
@@ -184,8 +192,6 @@
 
                 // Odblokowanie przycisku "Wyślij".
                 submitButton.disabled = false;
-
-                attachments.push(blobUrl);
             }
 
             carousel.classList.toggle('d-none', attachments.length == 0);
@@ -228,6 +234,10 @@
 
                     attachments.splice(index, 1);
                     carouselItem.remove();
+
+                    if (attachments.length < 2) {
+                        controlsContainer.classList.add('d-none');
+                    }
                 }
             }
         });
