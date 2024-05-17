@@ -17,6 +17,11 @@ class Post extends Model
         'text',
     ];
 
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function attachments(): HasMany
     {
         return $this->hasMany(PostAttachment::class);

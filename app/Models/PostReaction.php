@@ -12,4 +12,9 @@ class PostReaction extends Model
      * @var string
      */
     protected $table = 'posts_reactions';
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
 }

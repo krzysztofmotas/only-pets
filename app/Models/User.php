@@ -27,8 +27,8 @@ class User extends Authenticatable
         'bio',
         'location',
         'website_url',
-        'picture',
-        'profile_background',
+        'avatar',
+        'background',
         'role_id',
     ];
 

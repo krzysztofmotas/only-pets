@@ -71,16 +71,10 @@
 @push('body-scripts')
     <script>
         const fileTypes = [
-            "image/apng",
-            "image/bmp",
-            "image/gif",
             "image/jpeg",
-            "image/pjpeg",
             "image/png",
-            "image/svg+xml",
-            "image/tiff",
-            "image/webp",
-            "image/x-icon",
+            "image/jpg",
+            "image/gif",
         ];
 
         function validFileType(file) {
@@ -104,12 +98,9 @@
             const formData = new FormData();
             formData.append('text', textarea.value);
 
-            // for (const file of uploadedFiles) {
-            //     formData.append('files[]', file);
-            // }
-
-            console.log(formData);
-            console.log(csrfToken);
+            for (const a of attachments) {
+                formData.append('attachments[]', a);
+            }
 
             try {
                 const response = await fetch('{{ route('post.store') }}', {
@@ -120,10 +111,8 @@
                     body: formData
                 });
 
-                console.log(response);
-
                 if (response.ok) {
-                    const data = await response.json();
+                    window.location.reload();
                 } else {
                     console.error(response.statusText);
                 }
@@ -136,20 +125,25 @@
             const files = event.target.files;
             const errors = [];
 
+            const MAX_ATTACHMENTS = 5;
+
             for (const file of files) {
-                console.log(file.name);
+                if (attachments.length >= MAX_ATTACHMENTS) {
+                    errors.push(`Dodanie kolejnych załączników nie jest możliwe - osiągnięto maksymalną liczbę ${MAX_ATTACHMENTS} załączników.`);
+                    break;
+                }
 
                 if (!validFileType(file)) {
                     errors.push(`Nieprawidłowy typ pliku ${file.name}.`);
                     continue;
                 }
 
-                if (file.size > 7000) {
-                    errors.push(`Rozmiar pliku ${file.name} przekracza limit 7MB.`);
-                    // continue;
-                }
-                const blobUrl = URL.createObjectURL(file);
-                attachments.push(blobUrl);
+                // if (file.size > 7000) {
+                //     errors.push(`Rozmiar pliku ${file.name} przekracza limit 7MB.`);
+                //     continue;
+                // }
+
+                attachments.push(file);
 
                 // <div class="carousel-item active">
                 const carouselItem = document.createElement('div');
@@ -166,7 +160,7 @@
 
                 // <img src="" class="img-thumbnail" alt="...">
                 const img = document.createElement('img');
-                img.src = blobUrl;
+                img.src = URL.createObjectURL(file);
                 img.alt = file.name;
                 img.classList.add('img-thumbnail');
                 carouselItem.append(img);
@@ -192,6 +186,10 @@
 
                 // Odblokowanie przycisku "Wyślij".
                 submitButton.disabled = false;
+
+                if (attachments.length >= MAX_ATTACHMENTS) {
+                    postAttachmentsInput.disabled = true;
+                }
             }
 
             carousel.classList.toggle('d-none', attachments.length == 0);
@@ -238,6 +236,8 @@
                     if (attachments.length < 2) {
                         controlsContainer.classList.add('d-none');
                     }
+
+                    postAttachmentsInput.disabled = false;
                 }
             }
         });

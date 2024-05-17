@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
         $seederPassword = Hash::make('1234');
         $users = [
             [
-                // TODO: uzupełnić bio, website_url, picture i profile_background
+                // TODO: uzupełnić bio, website_url, avatar i background
 
                 'name' => 'jankowalski',
                 'display_name' => 'Jan Kowalski',
@@ -30,8 +30,8 @@ class UserSeeder extends Seeder
                 'bio' => '',
                 'location' => 'Warszawa',
                 'website_url' => '',
-                'picture' => '',
-                'profile_background' => '',
+                'avatar' => '',
+                'background' => '',
             ],
             [
                 'name' => 'annanowak',
@@ -41,8 +41,8 @@ class UserSeeder extends Seeder
                 'bio' => '',
                 'location' => 'Kraków',
                 'website_url' => '',
-                'picture' => '',
-                'profile_background' => '',
+                'avatar' => '',
+                'background' => '',
             ],
             [
                 'name' => 'piotrszymanski',
@@ -52,8 +52,8 @@ class UserSeeder extends Seeder
                 'bio' => '',
                 'location' => 'Gdańsk',
                 'website_url' => '',
-                'picture' => '',
-                'profile_background' => '',
+                'avatar' => '',
+                'background' => '',
             ],
             [
                 'name' => 'katarzynazajac',
@@ -63,8 +63,8 @@ class UserSeeder extends Seeder
                 'bio' => '',
                 'location' => 'Łódź',
                 'website_url' => '',
-                'picture' => '',
-                'profile_background' => '',
+                'avatar' => '',
+                'background' => '',
             ],
             [
                 'name' => 'michalgorski',
@@ -74,8 +74,8 @@ class UserSeeder extends Seeder
                 'bio' => '',
                 'location' => 'Wrocław',
                 'website_url' => '',
-                'picture' => '',
-                'profile_background' => '',
+                'avatar' => '',
+                'background' => '',
             ],
         ];
 

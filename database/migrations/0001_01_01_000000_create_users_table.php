@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('bio', 1000)->nullable();
             $table->string('location', 64)->nullable();
             $table->string('website_url', 100)->nullable();
-            $table->string('picture')->nullable();
-            $table->string('profile_background')->nullable();
+            $table->string('avatar')->nullable();
+            $table->string('background')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamps();

@@ -6,13 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class PostAttachment extends Model
 {
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
-        'file',
+        'post_id',
+        'file_path',
     ];
 
     /**
@@ -21,4 +24,9 @@ class PostAttachment extends Model
      * @var string
      */
     protected $table = 'posts_attachments';
+
+    public function post()
+    {
+        return $this->belongsTo(Post::class);
+    }
 }
