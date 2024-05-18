@@ -1,4 +1,16 @@
 <div id="posts-container">
+    <template id="post-loading-spinner-template">
+        <div id="post-loading-spinner">
+            <div class="row mt-3">
+                <div class="col d-flex justify-content-center">
+                    <div class="spinner-border" role="status">
+                        <span class="visually-hidden">Ładowanie...</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
+
     <template id="post-template">
         <div class="row mt-3">
             <div class="col">
@@ -32,10 +44,23 @@
             loadingPosts = false,
             noMorePosts = false;
 
+        const postsContainer = document.getElementById('posts-container');
+        const spinnerTemplate = document.getElementById('post-loading-spinner-template');
+
+        let spinner = null;
+
+        function showLoadingSpinner() {
+            postsContainer.appendChild(
+                document.importNode(spinnerTemplate.content, true)
+            );
+
+            spinner = document.getElementById('post-loading-spinner');
+        }
+
         loadMorePosts();
 
         window.addEventListener('scroll', () => {
-            console.log(`${window.innerHeight} + ${window.pageYOffset} >= ${document.body.scrollHeight}`);
+            // console.log(`${window.innerHeight} + ${window.pageYOffset} >= ${document.body.scrollHeight}`);
 
             if (!noMorePosts && !loadingPosts &&
                 (window.innerHeight + window.pageYOffset) >= document.body.scrollHeight - 100) {
@@ -46,10 +71,11 @@
             }
         });
 
-        const postsContainer = document.getElementById('posts-container');
         const postTemplate = document.getElementById('post-template');
 
         function loadMorePosts() {
+            showLoadingSpinner();
+
             const url = `?page=${page}`;
             console.log(`loadMorePosts -> page: ${page}`);
 
@@ -60,6 +86,8 @@
                 })
                 .then(response => response.json())
                 .then(data => {
+                    spinner.remove();
+
                     if (data.posts.data.length === 0) {
                         const warningTemplate = document.getElementById('post-warning');
                         const warning = document.importNode(warningTemplate.content, true);
@@ -80,6 +108,7 @@
                     }
                 })
                 .catch(error => {
+                    spinner.remove();
                     console.error(error);
                 })
                 .finally(() => {

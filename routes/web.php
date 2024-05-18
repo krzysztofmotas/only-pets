@@ -46,6 +46,6 @@ Route::controller(PostController::class)->group(function () {
     Route::post('/post/store', 'store')->name('post.store');
 });
 
-Route::controller(PostAttachment::class)->group(function () {
-    // Route::post('/auth/register', 'store')->name('post.store.attachment');
-});
+// Route::controller(PostAttachment::class)->group(function () {
+//     Route::post('/auth/register', 'store')->name('post.store.attachment');
+// });
