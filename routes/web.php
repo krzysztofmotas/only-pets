@@ -4,11 +4,31 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Models\PostAttachment;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
-Route::get('/', function () {
-    return view(Auth::check() ? 'home.index' : 'guest.index');
+if (!Auth::check()) {
+    Route::get('/', function() {
+        return view('guest.index');
+    });
+}
+
+Route::controller(HomeController::class)->group(function() {
+    Route::get('/', function(Request $request) {
+        if ($request->ajax()) {
+            Log::info('home request by ajax');
+
+            $controller = new HomeController();
+            return $controller->index($request);
+        } else {
+            Log::info('home request by user');
+
+            return view('home.index');
+        }
+    });
 });
 
 Route::controller(LoginController::class)->group(function () {

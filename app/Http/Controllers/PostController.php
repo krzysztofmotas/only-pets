@@ -13,6 +13,7 @@ class PostController extends Controller
 {
     public function store(StorePostRequest $request)
     {
+        // TODO
         // $request->validate([
         //     'files.*' => 'image|mimes:jpeg,png,jpg,gif', // |max:2048
         // ]);
