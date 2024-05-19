@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class PostAttachment extends Model
 {
@@ -15,7 +16,7 @@ class PostAttachment extends Model
      */
     protected $fillable = [
         'post_id',
-        'file_path',
+        'file_name',
     ];
 
     /**
@@ -25,7 +26,7 @@ class PostAttachment extends Model
      */
     protected $table = 'posts_attachments';
 
-    public function post()
+    public function post(): BelongsTo
     {
         return $this->belongsTo(Post::class);
     }

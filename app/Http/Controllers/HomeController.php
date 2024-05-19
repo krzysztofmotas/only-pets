@@ -10,10 +10,12 @@ class HomeController extends Controller
 {
     public function index(Request $request)
     {
-        // $users = User::where('votes', '>', 100)->paginate(15);
-        $posts = Post::orderBy('created_at', 'desc')->paginate(10);
-
         if ($request->ajax()) {
+            $posts = Post::with([
+                'user:id,name,display_name',
+                'attachments:post_id,file_name'
+            ])->orderBy('created_at', 'desc')->paginate(10);
+
             return response()->json([
                 'posts' => $posts,
                 'next_page_url' => $posts->nextPageUrl()

@@ -10,23 +10,17 @@ use App\Models\PostAttachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-if (!Auth::check()) {
-    Route::get('/', function() {
-        return view('guest.index');
-    });
-}
-
 Route::controller(HomeController::class)->group(function() {
     Route::get('/', function(Request $request) {
         if ($request->ajax()) {
-            Log::info('home request by ajax');
+            // Log::info('home request by ajax');
 
             $controller = new HomeController();
             return $controller->index($request);
         } else {
-            Log::info('home request by user');
+            // Log::info('home request by user');
 
-            return view('home.index');
+            return view(Auth::check() ? 'home.index' : 'guest.index');
         }
     });
 });

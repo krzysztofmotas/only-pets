@@ -29,7 +29,7 @@ class PostController extends Controller
                 $path = Storage::putFile('public/images/attachments', $file);
 
                 $attachment = $post->attachments()->create([
-                    'file_path' => $path,
+                    'file_name' => basename($path),
                 ]);
 
                 Log::info('Stworzono nowy załącznik', ['post_id' => $post->id, 'attachment_id' => $attachment->id, 'file_path' => $path]);
