@@ -41,16 +41,24 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
-
     }
 
     public function update(UpdatePostRequest $request, Post $post)
     {
-
     }
 
     public function destroy(Post $post)
     {
+        // if admin or author? TODO
 
+        $attachments = $post->attachments;
+        foreach ($attachments as $attachment) {
+            Storage::delete('public/images/attachments/' . $attachment->file_name);
+            $attachment->delete();
+        }
+        $post->reactions()->delete();
+        $post->delete();
+
+        return redirect()->back();
     }
 }

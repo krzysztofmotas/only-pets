@@ -26,6 +26,7 @@
             {{ Auth::user()->name }}
         </a>
         <div class="dropdown-menu shadow">
+            {{-- TODO: <li> --}}
             <a class="dropdown-item" href="#">
                 <i class="bi bi-person-fill fs-5 me-2"></i>
                 Mój profil

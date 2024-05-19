@@ -21,10 +21,7 @@ class DatabaseSeeder extends Seeder
             PostAttachmentSeeder::class,
             ReactionSeeder::class,
             PostReactionSeeder::class,
-            PostCommentSeeder::class,
             SubscriptionSeeder::class,
         ]);
-
-        // User::factory(10)->create();
     }
 }

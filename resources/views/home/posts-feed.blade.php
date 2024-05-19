@@ -15,7 +15,7 @@
         <div class="row mt-3">
             <div class="col">
                 <div class="card">
-                    <div class="card-header d-flex align-items-center">
+                    <div id="post-card-header" class="card-header d-flex align-items-center">
                         <div class="me-3">
                             <img id="post-user-avatar" src="https://github.com/krzysztofmotas.png" alt="username"
                                 class="rounded-circle border" width="50" height="50">
@@ -26,22 +26,6 @@
                                 <span id="post-user-name" class="badge text-bg-secondary fs-6">name</span>
                             </h5>
                             <small id="post-date" class="text-muted">date</small>
-                        </div>
-                        <div class="ms-auto">
-                            <div class="dropdown">
-                                <button class="btn btn-link dropdown-toggle" id="postMenuButton"
-                                    data-bs-toggle="dropdown" aria-expanded="false" data-bs-toggle="tooltip"
-                                    title="Menu">
-                                </button>
-                                <ul class="dropdown-menu" aria-labelledby="postMenuButton">
-                                    <li>
-                                        <a class="dropdown-item" href="#">
-                                            <i class="bi bi-trash3-fill fs-5 me-2"></i>
-                                            Usuń post
-                                        </a>
-                                    </li>
-                                </ul>
-                            </div>
                         </div>
                     </div>
                     <div id="post-card-body" class="card-body">
@@ -123,6 +107,53 @@
             </button>
         </div>
     </template>
+
+    <template id="post-options-dropdown-template">
+        <div class="ms-auto">
+            <div class="dropdown">
+                <button class="btn btn-link dropdown-toggle" id="postMenuButton" data-bs-toggle="dropdown"
+                    aria-expanded="false" data-bs-toggle="tooltip" title="Opcje">
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="postMenuButton">
+                    <li>
+                        <button class="dropdown-item" type="button">
+                            <i class="bi bi-pencil-square fs-5 me-2"></i>Edytuj post
+                        </button>
+                    </li>
+                    <li>
+                        <button class="dropdown-item" type="button" data-bs-toggle="modal"
+                            data-bs-target="#post-options-modal-id-">
+                            <i class="bi bi-trash3-fill fs-5 me-2"></i>Usuń post
+                        </button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="modal fade" id="post-options-modal-id-" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="modalLabel">Potwierdzenie</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Zamknij"></button>
+                    </div>
+                    <div class="modal-body">
+                        Czy na pewno chcesz usunąć ten post?
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zamknij</button>
+
+                        <form id="post-options-modal-destroy-form" method="post">
+                            @csrf
+                            @method('delete')
+                            <button type="submit" class="btn btn-danger">Usuń</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </template>
 </div>
 
 @push('body-scripts')
@@ -172,6 +203,7 @@
         const postCarouselIndicatorTemplate = document.getElementById('post-carousel-indicator-template');
         const postCarouselItemTemplate = document.getElementById('post-carousel-item-template');
         const postCarouselControlsTemplate = document.getElementById('post-carousel-controls-template');
+        const postOptionsDropdownTemplate = document.getElementById('post-options-dropdown-template');
 
         function loadMorePosts() {
             showLoadingSpinner();
@@ -198,6 +230,8 @@
                         return;
                     }
 
+                    const isAdmin = @json(Auth::user()->isAdmin());
+
                     for (const post of data.posts.data) {
                         console.log(post);
 
@@ -218,6 +252,19 @@
 
                         const postText = newPost.getElementById('post-text');
                         postText.textContent = post.text;
+
+                        const isAuthor = post.user.id == @json(Auth::user()->id);
+                        if (isAuthor || isAdmin) {
+                            const cardHeader = newPost.getElementById('post-card-header');
+                            const options = document.importNode(postOptionsDropdownTemplate.content, true);
+                            const form = options.getElementById('post-options-modal-destroy-form');
+                            form.action = `{{ route('post.destroy', '') }}/${post.id}`;
+
+                            options.querySelector("[id='post-options-modal-id-']").id += post.id;
+                            options.querySelector("[data-bs-target='#post-options-modal-id-']").setAttribute('data-bs-target', `#post-options-modal-id-${post.id}`);
+
+                            cardHeader.appendChild(options);
+                        }
 
                         if (post.attachments.length > 0) {
                             const carousel = document.importNode(postCarouselTemplate.content, true);

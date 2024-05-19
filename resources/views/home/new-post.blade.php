@@ -4,7 +4,7 @@
             <form id="post-create-form" method="post" action="{{ route('post.store') }}">
                 {{-- @csrf --}}
                 <div class="card-body">
-                    <textarea id="post-textarea" name="text" class="form-control fs-5" rows="2" placeholder="Co masz na myśli?"></textarea>
+                    <textarea id="post-textarea" name="text" class="form-control fs-5" rows="2" placeholder="Jak się mają Twoje zwierzaki? 🐶🦴"></textarea>
 
                     <div id="post-carousel" class="carousel slide my-3 d-none">
                         <div id="post-carousel-attachments-container" class="carousel-inner"></div>

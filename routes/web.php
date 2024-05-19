@@ -38,6 +38,7 @@ Route::controller(RegisterController::class)->group(function () {
 
 Route::controller(PostController::class)->group(function () {
     Route::post('/post/store', 'store')->name('post.store');
+    Route::delete('/post/destroy/{post}', 'destroy')->name('post.destroy');
 });
 
 // Route::controller(PostAttachment::class)->group(function () {
