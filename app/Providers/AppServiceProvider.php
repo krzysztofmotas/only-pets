@@ -5,9 +5,16 @@ namespace App\Providers;
 use Illuminate\Support\ServiceProvider;
 use App\Models\User;
 use Illuminate\Support\Facades\Gate;
+use App\Models\Post;
+use App\Policies\PostPolicy;
+use Illuminate\Support\Facades\Log;
 
 class AppServiceProvider extends ServiceProvider
 {
+    protected $policies = [
+        Post::class => PostPolicy::class,
+    ];
+
     /**
      * Register any application services.
      */

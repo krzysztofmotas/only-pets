@@ -88,6 +88,9 @@
                 formData.append('attachments[]', a);
             }
 
+            // formData.append('_token', csrfToken);
+            // formData.append('_method', 'post');
+
             try {
                 const response = await fetch('{{ route('post.store') }}', {
                     method: 'post',

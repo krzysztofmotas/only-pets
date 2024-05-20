@@ -8,11 +8,16 @@ use App\Http\Requests\UpdatePostRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class PostController extends Controller
 {
+    use AuthorizesRequests;
+
     public function store(StorePostRequest $request)
     {
+        // $this->authorize('store');
+
         // TODO
         // $request->validate([
         //     'files.*' => 'image|mimes:jpeg,png,jpg,gif', // |max:2048
@@ -41,15 +46,17 @@ class PostController extends Controller
 
     public function edit(Post $post)
     {
+        $this->authorize('update', $post);
     }
 
     public function update(UpdatePostRequest $request, Post $post)
     {
+        $this->authorize('update', $post);
     }
 
     public function destroy(Post $post)
     {
-        // if admin or author? TODO
+        $this->authorize('destroy', $post);
 
         $attachments = $post->attachments;
         foreach ($attachments as $attachment) {
