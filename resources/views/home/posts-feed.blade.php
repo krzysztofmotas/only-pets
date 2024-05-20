@@ -30,37 +30,8 @@
                     </div>
                     <div id="post-card-body" class="card-body">
                         <p id="post-text" class="card-text">tekst</p>
-                        {{-- <a href="{{ $postLink }}" class="btn btn-primary">Read more</a> --}}
                     </div>
-                    {{-- <div class="card-footer d-flex justify-content-between">
-                        <button type="button" class="btn btn-outline-secondary">
-                            <svg class="bi" width="16" height="16" fill="currentColor">
-                                <use xlink:href="/theme/onlyfans/spa/icons/sprite.svg#icon-like" />
-                            </svg> Like
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary">
-                            <svg class="bi" width="16" height="16" fill="currentColor">
-                                <use xlink:href="/theme/onlyfans/spa/icons/sprite.svg#icon-comment" />
-                            </svg> Comment
-                        </button>
-                        <button type="button" class="btn btn-outline-secondary">
-                            <svg class="bi" width="16" height="16" fill="currentColor">
-                                <use xlink:href="/theme/onlyfans/spa/icons/sprite.svg#icon-funds" />
-                            </svg> Send Tip
-                        </button>
-                        <div class="dropdown">
-                            <button class="btn btn-outline-secondary dropdown-toggle" type="button"
-                                id="bookmarkMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                <svg class="bi" width="16" height="16" fill="currentColor">
-                                    <use xlink:href="/theme/onlyfans/spa/icons/sprite.svg#icon-bookmark" />
-                                </svg>
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="bookmarkMenuButton">
-                                <li><a class="dropdown-item" href="#">Action</a></li>
-                                <li><a class="dropdown-item" href="#">Another action</a></li>
-                            </ul>
-                        </div>
-                    </div> --}}
+                    {{-- <div class="card-footer d-flex justify-content-between"></div> --}}
                 </div>
             </div>
         </div>
@@ -130,7 +101,8 @@
             </div>
         </div>
 
-        <div class="modal fade" id="post-options-modal-id-" tabindex="-1" aria-labelledby="modalLabel" aria-hidden="true">
+        <div class="modal fade" id="post-options-modal-id-" tabindex="-1" aria-labelledby="modalLabel"
+            aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -261,7 +233,8 @@
                             form.action = `{{ route('post.destroy', '') }}/${post.id}`;
 
                             options.querySelector("[id='post-options-modal-id-']").id += post.id;
-                            options.querySelector("[data-bs-target='#post-options-modal-id-']").setAttribute('data-bs-target', `#post-options-modal-id-${post.id}`);
+                            options.querySelector("[data-bs-target='#post-options-modal-id-']").setAttribute(
+                                'data-bs-target', `#post-options-modal-id-${post.id}`);
 
                             cardHeader.appendChild(options);
                         }

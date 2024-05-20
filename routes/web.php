@@ -6,12 +6,11 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
-use App\Models\PostAttachment;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 
-Route::controller(HomeController::class)->group(function() {
-    Route::get('/', function(Request $request) {
+Route::controller(HomeController::class)->group(function () {
+    Route::get('/', function (Request $request) {
         if ($request->ajax()) {
             // Log::info('home request by ajax');
 
@@ -20,7 +19,12 @@ Route::controller(HomeController::class)->group(function() {
         } else {
             // Log::info('home request by user');
 
-            return view(Auth::check() ? 'home.index' : 'guest.index');
+            if (Auth::check()) {
+                $controller = new HomeController();
+                return $controller->index($request);
+            }
+
+            return view('guest.index');
         }
     });
 });
@@ -41,6 +45,7 @@ Route::controller(PostController::class)->group(function () {
     Route::delete('/post/destroy/{post}', 'destroy')->name('post.destroy');
 });
 
-// Route::controller(PostAttachment::class)->group(function () {
-//     Route::post('/auth/register', 'store')->name('post.store.attachment');
-// });
+// https://stackoverflow.com/questions/73261188/laravel-auth-component-not-available-on-error-views
+Route::fallback(function () {
+    return abort(404);
+});

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
+use App\Models\Reaction;
 
 class HomeController extends Controller
 {
@@ -22,6 +23,6 @@ class HomeController extends Controller
             ]);
         }
 
-        // return? TODO
+        return view('home.index');
     }
 }

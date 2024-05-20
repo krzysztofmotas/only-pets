@@ -15,6 +15,7 @@
                 </div>
             </div>
 
+            @hasSection('right-column')
             <div class="col-3 d-none d-lg-block">
                 <div class="position-fixed">
                     <div class="container">
@@ -22,6 +23,7 @@
                     </div>
                 </div>
             </div>
+            @endif
         </div>
     </div>
 @endsection
