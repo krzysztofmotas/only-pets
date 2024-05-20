@@ -13,7 +13,7 @@ class HomeController extends Controller
     {
         if ($request->ajax()) {
             $posts = Post::with([
-                'user:id,name,display_name',
+                'user:id,name,display_name,avatar',
                 'attachments:post_id,file_name'
             ])->orderBy('created_at', 'desc')->paginate(10);
 

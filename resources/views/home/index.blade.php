@@ -1,5 +1,7 @@
 @extends('home.template')
 
+@section('title', 'Strona główna')
+
 @push('head-scripts')
     <script src="https://cdn.jsdelivr.net/npm/emoji-mart@latest/dist/browser.js"></script>
 @endpush

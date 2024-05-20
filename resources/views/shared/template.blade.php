@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="dark">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" data-bs-theme="light">
 
 <head>
     <meta charset="utf-8">
@@ -20,6 +20,8 @@
 </head>
 
 <body>
+    @include('shared.success-toast')
+
     @yield('body-content')
     @stack('body-scripts')
 
@@ -29,10 +31,6 @@
             const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
             const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(
                 tooltipTriggerEl));
-
-            // https://getbootstrap.com/docs/5.3/components/toasts/
-            const toastElList = document.querySelectorAll('.toast');
-            const toastList = [...toastElList].map(toastEl => new bootstrap.Toast(toastEl, option));
         });
     </script>
 </body>

@@ -16,10 +16,7 @@
             <div class="col">
                 <div class="card">
                     <div id="post-card-header" class="card-header d-flex align-items-center">
-                        <div class="me-3">
-                            <img id="post-user-avatar" src="https://github.com/krzysztofmotas.png" alt="username"
-                                class="rounded-circle border" width="50" height="50">
-                        </div>
+                        <div id="post-user-avatar"></div>
                         <div>
                             <h5 class="mb-0">
                                 <span id="post-user-display-name" class="fs-6">display name</span>
@@ -107,8 +104,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="modalLabel">Potwierdzenie</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal"
-                            aria-label="Zamknij"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
                     </div>
                     <div class="modal-body">
                         Czy na pewno chcesz usunąć ten post?
@@ -170,6 +166,46 @@
             }
         });
 
+        function getInitials(displayName) {
+            let nameParts = displayName.split(' ');
+            let initials = '';
+
+            if (nameParts.length > 1) {
+                nameParts.forEach(part => {
+                    initials += part.charAt(0).toUpperCase();
+
+                    if (initials.length >= 2) {
+                        return initials;
+                    }
+                });
+            } else {
+                initials = displayName.substring(0, 2).toUpperCase();
+            }
+            return initials;
+        }
+
+        // views/components/avatar.blade.php
+        function generateAvatarElement(user, width, height) {
+            if (user.avatar) {
+                return `<img class="rounded-circle border" src="${user.avatar}" alt="${user.name}" width="${width}" height="${height}">`;
+            } else {
+                let initials = getInitials(user.display_name);
+                let fontSize = `${height / 2.5}px`;
+                let backgroundColor = "var(--bs-secondary-bg)";
+                let divContent = `<strong>${initials}</strong>`;
+
+                return `<div class="rounded-circle border d-flex align-items-center justify-content-center text-primary me-2"
+                    style="
+                        width: ${width}px;
+                        height: ${height}px;
+                        font-size: ${fontSize};
+                        background-color: ${backgroundColor};
+                    ">
+                    ${divContent}
+                    </div>`;
+            }
+        }
+
         const postTemplate = document.getElementById('post-template');
         const postCarouselTemplate = document.getElementById('post-carousel-template');
         const postCarouselIndicatorTemplate = document.getElementById('post-carousel-indicator-template');
@@ -210,7 +246,7 @@
                         const newPost = document.importNode(postTemplate.content, true);
 
                         const postUserAvatar = newPost.getElementById('post-user-avatar');
-                        postUserAvatar.alt = post.user.display_name;
+                        postUserAvatar.innerHTML = generateAvatarElement(post.user, 50, 50);
 
                         const postUserDisplayName = newPost.getElementById('post-user-display-name');
                         postUserDisplayName.textContent = post.user.display_name;

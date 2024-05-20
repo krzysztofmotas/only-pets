@@ -9,13 +9,21 @@
                 </div>
             </div>
 
-            <div class="col-6 p-3 border-start border-end">
-                <div class="container">
-                    @yield('center-column')
-                </div>
-            </div>
+            @if (View::hasSection('right-column'))
+                <div class="col-6 p-3 border-start border-end">
+            @else
+                <div class="col-9 p-3 border-start border-end">
+            @endif
+            <div class="container">
+                @hasSection('title')
+                    <h4 class="mb-3">@yield('title')</h4>
+                @endif
 
-            @hasSection('right-column')
+                @yield('center-column')
+            </div>
+        </div>
+
+        @hasSection('right-column')
             <div class="col-3 d-none d-lg-block">
                 <div class="position-fixed">
                     <div class="container">
@@ -23,7 +31,7 @@
                     </div>
                 </div>
             </div>
-            @endif
-        </div>
+        @endif
+    </div>
     </div>
 @endsection

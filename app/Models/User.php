@@ -79,4 +79,23 @@ class User extends Authenticatable
     {
         return $this->hasMany(Post::class);
     }
+
+    function getInitials(): string
+    {
+        $nameParts = explode(' ', $this->display_name);
+        $initials = '';
+
+        if (count($nameParts) > 1) {
+            foreach ($nameParts as $part) {
+                $initials .= strtoupper(substr($part, 0, 1));
+
+                if (strlen($initials) >= 2) {
+                    break;
+                }
+            }
+        } else {
+            $initials = strtoupper(substr($this->display_name, 0, 2));
+        }
+        return $initials;
+    }
 }
