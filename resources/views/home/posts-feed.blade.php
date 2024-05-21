@@ -16,7 +16,7 @@
             <div class="col">
                 <div class="card">
                     <div id="post-card-header" class="card-header d-flex align-items-center">
-                        <div id="post-user-avatar"></div>
+                        <div id="post-user-avatar" class="me-3"></div>
                         <div>
                             <h5 class="mb-0">
                                 <span id="post-user-display-name" class="fs-6">display name</span>
@@ -187,19 +187,20 @@
         // views/components/avatar.blade.php
         function generateAvatarElement(user, width, height) {
             if (user.avatar) {
-                return `<img class="rounded-circle border" src="${user.avatar}" alt="${user.name}" width="${width}" height="${height}">`;
+                return `<img class="rounded-circle border border-2" src="{{ asset('avatars/${user.avatar}') }}" alt="${user.name}" width="${width}" height="${height}">`;
             } else {
                 let initials = getInitials(user.display_name);
                 let fontSize = `${height / 2.5}px`;
                 let backgroundColor = "var(--bs-secondary-bg)";
                 let divContent = `<strong>${initials}</strong>`;
 
-                return `<div class="rounded-circle border d-flex align-items-center justify-content-center text-primary me-2"
+                return `<div class="rounded-circle border border-2 d-flex align-items-center justify-content-center text-primary"
                     style="
                         width: ${width}px;
                         height: ${height}px;
                         font-size: ${fontSize};
                         background-color: ${backgroundColor};
+                        user-select: none;
                     ">
                     ${divContent}
                     </div>`;

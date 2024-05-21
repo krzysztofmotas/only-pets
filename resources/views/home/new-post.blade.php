@@ -1,8 +1,8 @@
 <div class="row">
     <div class="col">
         <div class="card">
-            <form id="post-create-form" method="post" action="{{ route('post.store') }}">
-                {{-- @csrf --}}
+            <form id="post-create-form" method="post" action="{{ route('post.store') }}" enctype="multipart/form-data">
+                @csrf
                 <div class="card-body">
                     <textarea id="post-textarea" name="text" class="form-control fs-5" rows="2" placeholder="Jak się mają Twoje zwierzaki? 🐶🦴"></textarea>
 

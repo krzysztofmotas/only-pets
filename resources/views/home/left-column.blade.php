@@ -38,7 +38,9 @@
     <div class="dropdown show">
         <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
             data-bs-toggle="dropdown" aria-expanded="false">
-            <x-avatar width="40px" height="40px" />
+            <div class="me-2">
+                <x-avatar width="40px" height="40px" />
+            </div>
             {{ Auth::user()->name }}
         </a>
         <div class="dropdown-menu shadow">

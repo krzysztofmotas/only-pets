@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -102,5 +103,85 @@ class UserController extends Controller
 
         return redirect()->back()
             ->with('successToast', 'Twoje dane zostały pomyślnie zmienione.');
+    }
+
+    public function updateAvatar(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif|max:1000'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->with('activeTab', 'avatar');
+        }
+
+        $user = User::findOrFail(Auth::user()->id);
+
+        if ($user->avatar) {
+            Storage::delete('avatars/' . $user->avatar);
+        }
+
+        $file = $request->file('avatar');
+        $path = Storage::putFile('public/images/avatars', $file);
+        $user->avatar = basename($path);
+        $user->save();
+
+        return redirect()->back()
+            ->with('successToast', 'Twój awatar został pomyślnie zmieniony.');
+    }
+
+    public function deleteAvatar() {
+        $user = User::findOrFail(Auth::user()->id);
+
+        if ($user->avatar) {
+            Storage::delete('public/images/avatars/' . $user->avatar);
+        }
+
+        $user->avatar = null;
+        $user->save();
+
+        return redirect()->back()
+            ->with('successToast', 'Twój awatar został pomyślnie usunięty.');
+    }
+
+    public function updateBackground(Request $request) {
+        $validator = Validator::make($request->all(), [
+            'background' => 'required|image|mimes:jpeg,png,jpg,gif|max:1000'
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()
+                ->withErrors($validator)
+                ->with('activeTab', 'background');
+        }
+
+        $user = User::findOrFail(Auth::user()->id);
+
+        if ($user->background) {
+            Storage::delete('backgrounds/' . $user->background);
+        }
+
+        $file = $request->file('background');
+        $path = Storage::putFile('public/images/backgrounds', $file);
+        $user->background = basename($path);
+        $user->save();
+
+        return redirect()->back()
+            ->with('successToast', 'Twoje zdjęcie w tle zostało pomyślnie zmienione.');
+    }
+
+    public function deleteBackground() {
+        $user = User::findOrFail(Auth::user()->id);
+
+        if ($user->background) {
+            Storage::delete('public/images/backgrounds/' . $user->background);
+        }
+
+        $user->background = null;
+        $user->save();
+
+        return redirect()->back()
+            ->with('successToast', 'Twoje zdjęcie w tle zostało pomyślnie usunięte.');
     }
 }

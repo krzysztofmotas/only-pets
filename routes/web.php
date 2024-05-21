@@ -30,13 +30,17 @@ Route::controller(HomeController::class)->group(function () {
     });
 });
 
-Route::controller(UserController::class)->group(function () {
+Route::controller(UserController::class)->middleware('auth')->group(function () {
     Route::view('/settings', 'settings.index')->name('settings');
     Route::post('/settings/password', 'updatePassword')->name('settings.password');
     Route::post('/settings/name', 'updateName')->name('settings.name');
     Route::post('/settings/display-name', 'updateDisplayName')->name('settings.display.name');
     Route::post('/settings/other', 'updateOtherInfo')->name('settings.other.info');
-})->middleware('auth');
+    Route::post('/settings/avatar', 'updateAvatar')->name('settings.avatar');
+    Route::delete('/settings/avatar/delete', 'deleteAvatar')->name('settings.delete.avatar');
+    Route::post('/settings/background', 'updateBackground')->name('settings.background');
+    Route::delete('/settings/background/delete', 'deleteBackground')->name('settings.delete.background');
+});
 
 Route::controller(LoginController::class)->group(function () {
     Route::get('/auth/login', 'login')->name('login');
