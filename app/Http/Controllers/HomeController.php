@@ -22,16 +22,18 @@ class HomeController extends Controller
             ]);
         }
 
-        return view('home.index');
+        $suggestedUsers = User::getSuggestedUsers();
+        return view('home.index', compact('suggestedUsers'));
     }
 
     public function search(Request $request)
     {
         $query = $request->input('query');
-        $users = User::where('display_name', 'like', '%' . $query . '%')
-                    ->where('name', 'like', '%' . $query . '%')
-                    ->take(10)
-                    ->get();
+
+        $users = User::where(function ($q) use ($query) {
+            $q->where('display_name', 'like', '%' . $query . '%')
+                ->orWhere('name', 'like', '%' . $query . '%');
+        })->take(10)->get();
 
         return view('home.search', compact('users'));
     }

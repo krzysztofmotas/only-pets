@@ -1,8 +1,12 @@
-@props(['user' => Auth::user(), 'width' => '50px', 'height' => '50px'])
+@props([
+    'user' => Auth::user(),
+    'width' => '50px',
+    'height' => '50px'
+])
 
 {{-- generateAvatarElement, posts-feed.blade.php --}}
 @if ($user->avatar)
-    <img class="rounded-circle border border-2" src="{{ asset("avatars/$user->avatar") }}" alt="{{ $user->name }}"
+    <img class="rounded-circle border border-2 object-fit-cover" src="{{ asset("avatars/$user->avatar") }}" alt="{{ $user->name }}"
         width="{{ $width }}" height="{{ $height }}">
 @else
     <div class="rounded-circle border border-2 d-flex align-items-center justify-content-center text-primary"

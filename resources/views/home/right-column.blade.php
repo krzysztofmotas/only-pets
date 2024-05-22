@@ -8,5 +8,17 @@
                 <button class="input-group-text btn btn-primary" type="submit">Szukaj</button>
             </div>
         </form>
+
+        @if ($suggestedUsers)
+            <div class="mt-3">
+                <h6>Sugestie użytkowników</h6>
+
+                @foreach($suggestedUsers as $user)
+                    <div class="mb-3">
+                        <x-user-card :user="$user" />
+                    </div>
+                @endforeach
+            </div>
+        @endif
     </div>
 </div>

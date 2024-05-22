@@ -16,11 +16,11 @@
             <div class="col">
                 <div class="card">
                     <div id="post-card-header" class="card-header d-flex align-items-center">
-                        <div id="post-user-avatar" class="me-3"></div>
+                        <a class="text-decoration-none" href=""><div id="post-user-avatar" class="me-3"></div></a>
                         <div>
                             <h5 class="mb-0">
-                                <span id="post-user-display-name" class="fs-6">display name</span>
-                                <span id="post-user-name" class="badge text-bg-secondary fs-6">name</span>
+                                <a class="text-decoration-none" href=""><span id="post-user-display-name" class="fs-6">display name</span></a>
+                                <a href=""><span id="post-user-name" class="badge text-bg-secondary fs-6">name</span></a>
                             </h5>
                             <small id="post-date" class="text-muted">date</small>
                         </div>
@@ -187,7 +187,7 @@
         // views/components/avatar.blade.php
         function generateAvatarElement(user, width, height) {
             if (user.avatar) {
-                return `<img class="rounded-circle border border-2" src="{{ asset('avatars/${user.avatar}') }}" alt="${user.name}" width="${width}" height="${height}">`;
+                return `<img class="rounded-circle border border-2 object-fit-cover" src="{{ asset('avatars/${user.avatar}') }}" alt="${user.name}" width="${width}" height="${height}">`;
             } else {
                 let initials = getInitials(user.display_name);
                 let fontSize = `${height / 2.5}px`;
@@ -261,6 +261,12 @@
 
                         const postText = newPost.getElementById('post-text');
                         postText.textContent = post.text;
+
+                        const profileUrl = "{{ route('profile', ':userName') }}".replace(':userName', post.user.name);
+
+                        newPost.querySelectorAll('a').forEach(a => {
+                            a.href = profileUrl;
+                        });
 
                         const isAuthor = post.user.id == @json(Auth::user()->id);
                         if (isAuthor || isAdmin) {

@@ -22,15 +22,25 @@
 
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-            <a href="#" class="nav-link active" aria-current="page">
+            <a href="/"
+                class="nav-link link-body-emphasis {{ Route::current()->getName() === 'home' ? 'active' : '' }}">
                 <i class="bi bi-house-door-fill fs-5 me-2"></i>
                 Strona główna
             </a>
         </li>
         <li>
-            <a href="#" class="nav-link link-body-emphasis">
-                <i class="bi bi-three-dots fs-5 me-2"></i>
-                Inne
+            <a href="{{ route('profile', Auth::user()->name) }}"
+                class="nav-link link-body-emphasis {{ Route::current()->getName() === 'profile' ? 'active' : '' }}">
+                <i class="bi bi-person-circle fs-5 me-2"></i>
+                Mój profil
+            </a>
+        </li>
+
+        <li>
+            <a href="{{ route('settings') }}"
+                class="nav-link link-body-emphasis {{ Route::current()->getName() === 'settings' ? 'active' : '' }}">
+                <i class="bi bi-gear fs-5 me-2"></i>
+                Ustawienia
             </a>
         </li>
     </ul>
@@ -44,20 +54,6 @@
             {{ Auth::user()->name }}
         </a>
         <div class="dropdown-menu shadow">
-            <li>
-                <a class="dropdown-item" href="#">
-                    <i class="bi bi-person-fill fs-5 me-2"></i>
-                    Mój profil
-                </a>
-            </li>
-
-            <li>
-                <a class="dropdown-item" href="{{ route('settings') }}">
-                    <i class="bi bi-gear fs-5 me-2"></i>
-                    Ustawienia
-                </a>
-            </li>
-
             <li>
                 <button class="dropdown-item" onclick="toggleTheme()">
                     <i class="bi-moon-stars fs-5 me-2"></i>

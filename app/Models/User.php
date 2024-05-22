@@ -98,4 +98,8 @@ class User extends Authenticatable
         }
         return $initials;
     }
+
+    public static function getSuggestedUsers($limit = 3) {
+        return self::inRandomOrder()->limit($limit)->get();
+    }
 }

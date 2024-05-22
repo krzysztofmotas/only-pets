@@ -27,7 +27,7 @@ Route::controller(HomeController::class)->group(function () {
 
             return view('guest.index');
         }
-    });
+    })->name('home');
 
     Route::get('/search', 'search')->name('search')->middleware('auth');
 });
@@ -42,7 +42,7 @@ Route::controller(UserController::class)->middleware('auth')->group(function () 
     Route::delete('/settings/avatar/delete', 'deleteAvatar')->name('settings.delete.avatar');
     Route::post('/settings/background', 'updateBackground')->name('settings.background');
     Route::delete('/settings/background/delete', 'deleteBackground')->name('settings.delete.background');
-    Route::get('/profile/{name}', 'profile')->name('profile');
+    Route::get('/profile/{user:name}', 'profile')->name('profile');
 });
 
 Route::controller(LoginController::class)->group(function () {

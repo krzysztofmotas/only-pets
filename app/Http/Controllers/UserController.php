@@ -185,7 +185,8 @@ class UserController extends Controller
             ->with('successToast', 'Twoje zdjęcie w tle zostało pomyślnie usunięte.');
     }
 
-    public function profile($name) {
-
+    public function profile(User $user) {
+        $suggestedUsers = User::getSuggestedUsers();
+        return view('home.profile', compact('user', 'suggestedUsers'));
     }
 }
