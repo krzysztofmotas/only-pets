@@ -5,7 +5,7 @@
 @section('center-column')
     <div class="col">
         <div class="row">
-            @if ($users)
+            @if (!$users->isEmpty())
                 <div class="alert alert-success" role="alert">Znaleziono {{ count($users) }} użytkowników.</div>
                 @foreach($users as $user)
                     <x-user-card :user="$user" />

@@ -17,7 +17,7 @@
 
 <div class="d-flex flex-column h-100">
     <a href="/" class="mb-3 link-body-emphasis text-decoration-none">
-        <span class="fs-4">{{ config('app.name') }}</span>
+        <span class="fs-4 text-center">🐧🐹🐔<br><strong>{{ config('app.name') }}</strong></span>
     </a>
 
     <ul class="nav nav-pills flex-column mb-auto">

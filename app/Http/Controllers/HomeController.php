@@ -35,6 +35,7 @@ class HomeController extends Controller
                 ->orWhere('name', 'like', '%' . $query . '%');
         })->take(10)->get();
 
-        return view('home.search', compact('users'));
+        $suggestedUsers = User::getSuggestedUsers();
+        return view('home.search', compact('users', 'suggestedUsers'));
     }
 }
