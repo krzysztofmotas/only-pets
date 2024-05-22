@@ -4,8 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Post;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
-use App\Models\Reaction;
+use App\Models\User;
 
 class HomeController extends Controller
 {
@@ -24,5 +23,16 @@ class HomeController extends Controller
         }
 
         return view('home.index');
+    }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('query');
+        $users = User::where('display_name', 'like', '%' . $query . '%')
+                    ->where('name', 'like', '%' . $query . '%')
+                    ->take(10)
+                    ->get();
+
+        return view('home.search', compact('users'));
     }
 }

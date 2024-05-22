@@ -25,7 +25,7 @@
 
         @hasSection('right-column')
             <div class="col-3 d-none d-lg-block">
-                <div class="position-fixed">
+                <div class="position-fixed p-3">
                     <div class="container">
                         @yield('right-column')
                     </div>

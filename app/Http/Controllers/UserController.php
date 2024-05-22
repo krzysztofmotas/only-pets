@@ -184,4 +184,8 @@ class UserController extends Controller
         return redirect()->back()
             ->with('successToast', 'Twoje zdjęcie w tle zostało pomyślnie usunięte.');
     }
+
+    public function profile($name) {
+
+    }
 }

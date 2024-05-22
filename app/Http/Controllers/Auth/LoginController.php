@@ -29,7 +29,9 @@ class LoginController extends Controller
 
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
-            return redirect('/');
+
+            return redirect('/')
+                ->with('successToast', 'Zostałeś pomyślnie zalogowany!');
         }
 
         return back()->withErrors([

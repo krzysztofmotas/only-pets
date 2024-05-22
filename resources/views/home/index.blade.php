@@ -12,4 +12,5 @@
 @endsection
 
 @section('right-column')
+    @include('home.right-column')
 @endsection
