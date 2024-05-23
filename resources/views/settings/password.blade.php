@@ -1,6 +1,6 @@
 <form method="post" action="{{ route('settings.password') }}">
     @csrf
-
+    @method('put')
     <div class="form-floating mb-3">
         <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password"
             required autocomplete="current-password" placeholder="Hasło" minlength="4">

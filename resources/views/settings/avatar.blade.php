@@ -1,6 +1,7 @@
 <div class="d-flex flex-column">
     <form id="avatar-form" method="post" action="{{ route('settings.avatar') }}" enctype="multipart/form-data">
         @csrf
+        @method('put')
         <input id="avatar-input" type="file" name="avatar" accept="image/*"
             class="form-control w-auto @error('avatar') is-invalid @enderror">
 

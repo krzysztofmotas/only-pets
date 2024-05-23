@@ -1,6 +1,7 @@
 <div class="d-flex flex-column">
     <form id="background-form" method="post" action="{{ route('settings.background') }}" enctype="multipart/form-data">
         @csrf
+        @method('put')
         <input id="background-input" type="file" name="background" accept="image/*"
             class="form-control w-auto @error('background') is-invalid @enderror">
 

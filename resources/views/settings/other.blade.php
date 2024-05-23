@@ -1,5 +1,6 @@
 <form method="post" action="{{ route('settings.other.info') }}">
     @csrf
+    @method('put')
     <div class="form-floating mb-3">
         <textarea id="bio" class="form-control h-100 @error('bio') is-invalid @enderror" name="bio" placeholder="Bio"
             maxlength="1000" rows="5">{{ old('bio', Auth::user()->bio) }}</textarea>
