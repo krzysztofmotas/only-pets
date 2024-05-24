@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Models\Post;
 use App\Policies\PostPolicy;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +32,14 @@ class AppServiceProvider extends ServiceProvider
     {
         Gate::define('admin', function (User $user) {
             return $user->isAdmin();
+        });
+
+        Gate::define('has-active-subscription', function (User $user, $id) {
+            return $user->hasActiveSubscriptionFor($id);
+        });
+
+        Gate::define('is-active-subscriber', function (User $user, $id) {
+            return $user->hasActiveSubscriptionFrom($id);
         });
     }
 }

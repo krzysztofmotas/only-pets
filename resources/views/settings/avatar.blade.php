@@ -36,6 +36,6 @@
     @endif
 
     <div class="mt-3">
-        <x-avatar width="160px" height="160px" />
+        <x-avatar size="160px" />
     </div>
 </div>

@@ -16,11 +16,15 @@
             <div class="col">
                 <div class="card">
                     <div id="post-card-header" class="card-header d-flex align-items-center">
-                        <a class="text-decoration-none" href=""><div id="post-user-avatar" class="me-2"></div></a>
+                        <a class="text-decoration-none" href="">
+                            <div id="post-user-avatar" class="me-2"></div>
+                        </a>
                         <div>
                             <h5 class="mb-0">
-                                <a class="text-decoration-none" href=""><span id="post-user-display-name" class="fs-6">display name</span></a>
-                                <a href=""><span id="post-user-name" class="badge text-bg-secondary fs-6">name</span></a>
+                                <a class="text-decoration-none" href=""><span id="post-user-display-name"
+                                        class="fs-6">display name</span></a>
+                                <a href=""><span id="post-user-name"
+                                        class="badge text-bg-secondary fs-6">name</span></a>
                             </h5>
                             <small id="post-date" class="text-muted">date</small>
                         </div>
@@ -104,7 +108,8 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h1 class="modal-title fs-5" id="modalLabel">Potwierdzenie</h1>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Zamknij"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                            aria-label="Zamknij"></button>
                     </div>
                     <div class="modal-body">
                         Czy na pewno chcesz usunąć ten post?
@@ -125,6 +130,8 @@
 </div>
 
 @push('body-scripts')
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+
     <script>
         let page = 1,
             loadingPosts = false,
@@ -257,9 +264,17 @@
 
                         const postDate = newPost.getElementById('post-date');
                         const date = new Date(post.created_at);
-                        postDate.textContent = Intl.DateTimeFormat('pl-PL', dateOptions).format(date);
+                        const formattedDate = Intl.DateTimeFormat('pl-PL', {
+                            year: "numeric",
+                            month: "long",
+                            day: "numeric",
+                            hour: "numeric",
+                            minute: "2-digit"
+                        }).format(date);
 
-                        const postText = newPost.getElementById('post-text');
+                        postDate.textContent = formattedDate;
+
+                            const postText = newPost.getElementById('post-text');
                         postText.textContent = post.text;
 
                         const profileUrl = "{{ route('profile', ':userName') }}".replace(':userName', post.user.name);

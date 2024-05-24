@@ -16,7 +16,8 @@ return new class extends Migration
             $table->id();
             $table->foreignId('subscriber_user_id')->constrained('users');
             $table->foreignId('subscribed_user_id')->constrained('users');
-            $table->integer('price');
+            $table->integer('cost');
+            $table->boolean('is_active')->default(true);
             $table->date('started_at')->default(now());
             $table->date('end_at');
             $table->string('payment_method', 30);

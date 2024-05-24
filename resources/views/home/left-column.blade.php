@@ -14,9 +14,17 @@
         @auth
             <li>
                 <a href="{{ route('profile', Auth::user()->name) }}"
-                    class="nav-link link-body-emphasis {{ Route::current()->getName() === 'profile' ? 'active' : '' }}">
+                    class="nav-link link-body-emphasis {{ Route::current()->getName() === 'profile' && Auth::user()->id == $user->id ? 'active' : '' }}">
                     <i class="bi bi-person-circle fs-5 me-2"></i>
                     Mój profil
+                </a>
+            </li>
+
+            <li>
+                <a href=""
+                    class="nav-link link-body-emphasis {{ str_contains(Route::current()->getName(), 'subscriptions') ? 'active' : '' }}">
+                    <i class="bi bi-bag-heart-fill fs-5 me-2"></i>
+                    Moje subskrybcje
                 </a>
             </li>
 
@@ -49,7 +57,7 @@
             <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
                 data-bs-toggle="dropdown" aria-expanded="false">
                 <div class="me-2">
-                    <x-avatar width="50px" height="50px" />
+                    <x-avatar />
                 </div>
 
                 <div class="d-flex flex-column me-2">

@@ -17,7 +17,7 @@
         @endif
             <div class="d-flex align-items-center">
                 <div class="me-2">
-                    <x-avatar :user="$user" width="80px" height="80px" />
+                    <x-avatar :user="$user" size="80px" />
                 </div>
                 <div>
                     <h5 class="card-title mb-0 fs-5 {{ $user->background ? 'text-white' : ''}}">{{ $user->display_name }}</h5>

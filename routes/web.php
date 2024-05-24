@@ -7,11 +7,18 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SubscriptionController;
 
 Route::controller(HomeController::class)->group(function () {
     Route::get('/', 'index')->name('home');
     Route::get('/search', 'search')->name('search');
     Route::get('/profile/{user:name}', 'profile')->name('profile');
+});
+
+Route::controller(SubscriptionController::class)->middleware('auth')->group(function () {
+    Route::get('/subscriptions/buy/{user}', 'buyView')->name('subscriptions.buy');
+    Route::post('/subscriptions/buy/{user}', 'store')->name('subscriptions.store');
+    Route::get('/subscriptions/manage/{subscription}', 'manageView')->name('subscriptions.manage');
 });
 
 Route::controller(UserController::class)->middleware('auth')->group(function () {

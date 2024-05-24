@@ -82,6 +82,16 @@ class User extends Authenticatable
         return $this->hasMany(Post::class);
     }
 
+    public function subscriptions(): HasMany
+    {
+        return $this->hasMany(Subscription::class, 'subscriber_user_id');
+    }
+
+    public function subscribedBy(): HasMany
+    {
+        return $this->hasMany(Subscription::class, 'subscribed_user_id');
+    }
+
     function getInitials(): string
     {
         $cleanName = preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->display_name); // bez emoji
@@ -104,7 +114,35 @@ class User extends Authenticatable
         return $initials;
     }
 
-    public static function getSuggestedUsers($limit = 3) {
+    public static function getSuggestedUsers($limit = 3)
+    {
         return self::inRandomOrder()->limit($limit)->get();
+    }
+
+    public function hasActiveSubscriptionFor($id): bool
+    {
+        return $this->subscriptions()
+            ->where('subscribed_user_id', $id)
+            ->where('is_active', true)
+            ->where('end_at', '>', now())
+            ->exists();
+    }
+
+    public function hasActiveSubscriptionFrom($id): bool
+    {
+        return $this->subscribedBy()
+            ->where('subscriber_user_id', $id)
+            ->where('is_active', true)
+            ->where('end_at', '>', now())
+            ->exists();
+    }
+
+    public function getSubscriptionForUser($id): Subscription
+    {
+        return $this->subscriptions()
+            ->where('subscribed_user_id', $id)
+            ->where('is_active', true)
+            ->where('end_at', '>', now())
+            ->first();
     }
 }
