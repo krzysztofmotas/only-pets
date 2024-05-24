@@ -30,13 +30,14 @@ class LoginController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
-            return redirect('/')
+            return redirect()
+                ->route('home')
                 ->with('successToast', 'Zostałeś pomyślnie zalogowany!');
         }
 
-        return back()->withErrors([
-            'email' => 'Nieprawidłowe dane logowania. Sprawdź wprowadzone informacje i spróbuj ponownie.',
-        ])->onlyInput('email');
+        return back()
+            ->withErrors(['email' => 'Nieprawidłowe dane logowania. Sprawdź wprowadzone informacje i spróbuj ponownie.'])
+            ->onlyInput('email');
     }
 
     public function logout(Request $request)
@@ -46,6 +47,8 @@ class LoginController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/');
+        return redirect()
+            ->route('home')
+            ->with('successToast', 'Zostałeś pomyślnie wylogowany!');
     }
 }

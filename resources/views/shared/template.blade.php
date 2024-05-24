@@ -17,6 +17,21 @@
 
     <script defer src="{{ asset('js/bootstrap.bundle.js') }}"></script>
     @stack('head-scripts')
+
+    <script>
+        const html = document.querySelector('html');
+
+        const userTheme = localStorage.getItem("theme") || "light";
+        document.documentElement.dataset.bsTheme = userTheme;
+
+        function toggleTheme() {
+            const currentTheme = localStorage.getItem("theme") === "dark" ? "dark" : "light";
+            const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+            localStorage.setItem("theme", newTheme);
+            html.dataset.bsTheme = newTheme;
+        }
+    </script>
 </head>
 
 <body>

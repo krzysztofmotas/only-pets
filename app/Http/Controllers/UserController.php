@@ -21,7 +21,8 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()
+            return redirect()
+                ->back()
                 ->withInput()
                 ->withErrors($validator)
                 ->with('activeTab', 'name');
@@ -31,7 +32,8 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->save();
 
-        return redirect()->back()
+        return redirect()
+            ->back()
             ->with('successToast', 'Twoja nazwa została pomyślnie zmieniona.');
     }
 
@@ -41,7 +43,8 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()
+            return redirect()
+                ->back()
                 ->withInput()
                 ->withErrors($validator)
                 ->with('activeTab', 'display-name');
@@ -51,7 +54,8 @@ class UserController extends Controller
         $user->display_name = $request->input('display-name');
         $user->save();
 
-        return redirect()->back()
+        return redirect()
+            ->back()
             ->with('successToast', 'Twoja nazwa wyświetlana została pomyślnie zmieniona.');
     }
 
@@ -62,7 +66,8 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()
+            return redirect()
+                ->back()
                 ->withInput()
                 ->withErrors($validator)
                 ->with('activeTab', 'password');
@@ -72,7 +77,8 @@ class UserController extends Controller
         $user->password = Hash::make($request->input('new-password'));
         $user->save();
 
-        return redirect()->back()
+        return redirect()
+            ->back()
             ->with('successToast', 'Twoje hasło zostało pomyślnie zmienione.');
     }
 
@@ -89,7 +95,8 @@ class UserController extends Controller
         $validator = Validator::make($request->all(), $rules);
 
         if ($validator->fails()) {
-            return redirect()->back()
+            return redirect()
+                ->back()
                 ->withInput()
                 ->withErrors($validator)
                 ->with('activeTab', 'other');
@@ -101,7 +108,8 @@ class UserController extends Controller
         $user->website_url = $request->input('website-url');
         $user->save();
 
-        return redirect()->back()
+        return redirect()
+            ->back()
             ->with('successToast', 'Twoje dane zostały pomyślnie zmienione.');
     }
 
@@ -111,7 +119,8 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()
+            return redirect()
+                ->back()
                 ->withErrors($validator)
                 ->with('activeTab', 'avatar');
         }
@@ -127,7 +136,8 @@ class UserController extends Controller
         $user->avatar = basename($path);
         $user->save();
 
-        return redirect()->back()
+        return redirect()
+            ->back()
             ->with('successToast', 'Twój awatar został pomyślnie zmieniony.');
     }
 
@@ -141,7 +151,8 @@ class UserController extends Controller
         $user->avatar = null;
         $user->save();
 
-        return redirect()->back()
+        return redirect()
+            ->back()
             ->with('successToast', 'Twój awatar został pomyślnie usunięty.');
     }
 
@@ -151,7 +162,8 @@ class UserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return redirect()->back()
+            return redirect()
+                ->back()
                 ->withErrors($validator)
                 ->with('activeTab', 'background');
         }
@@ -167,7 +179,8 @@ class UserController extends Controller
         $user->background = basename($path);
         $user->save();
 
-        return redirect()->back()
+        return redirect()
+            ->back()
             ->with('successToast', 'Twoje zdjęcie w tle zostało pomyślnie zmienione.');
     }
 
@@ -181,12 +194,8 @@ class UserController extends Controller
         $user->background = null;
         $user->save();
 
-        return redirect()->back()
+        return redirect()
+            ->back()
             ->with('successToast', 'Twoje zdjęcie w tle zostało pomyślnie usunięte.');
-    }
-
-    public function profile(User $user) {
-        $suggestedUsers = User::getSuggestedUsers();
-        return view('home.profile', compact('user', 'suggestedUsers'));
     }
 }

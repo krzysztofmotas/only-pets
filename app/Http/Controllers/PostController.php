@@ -43,7 +43,8 @@ class PostController extends Controller
 
         Log::info('Stworzono nowy post', ['post_id' => $post->id, 'user_id' => $user->id]);
 
-        // return redirect()->back()
+        // return redirect()
+        //     ->back()
         //     ->with('successToast', 'Twój nowy post został pomyślnie dodany!');
     }
 
@@ -69,7 +70,8 @@ class PostController extends Controller
         $post->reactions()->delete();
         $post->delete();
 
-        return redirect()->back()
+        return redirect()
+            ->back()
             ->with('successToast', 'Wybrany post został pomyślnie usunięty.');
     }
 }

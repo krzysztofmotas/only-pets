@@ -1,23 +1,6 @@
-@push('head-scripts')
-    <script>
-        const html = document.querySelector('html');
-
-        const userTheme = localStorage.getItem("theme") || "light";
-        document.documentElement.dataset.bsTheme = userTheme;
-
-        function toggleTheme() {
-            const currentTheme = localStorage.getItem("theme") === "dark" ? "dark" : "light";
-            const newTheme = currentTheme === "dark" ? "light" : "dark";
-
-            localStorage.setItem("theme", newTheme);
-            html.dataset.bsTheme = newTheme;
-        }
-    </script>
-@endpush
-
 <div class="d-flex flex-column h-100">
     <a href="/" class="mb-3 link-body-emphasis text-decoration-none">
-        <span class="fs-4 text-center">🐧🐹🐔<br><strong>{{ config('app.name') }}</strong></span>
+        <span class="fs-4 text-center">{{ config('app.name') }}</span>
     </a>
 
     <ul class="nav nav-pills flex-column mb-auto">
@@ -28,59 +11,81 @@
                 Strona główna
             </a>
         </li>
-        <li>
-            <a href="{{ route('profile', Auth::user()->name) }}"
-                class="nav-link link-body-emphasis {{ Route::current()->getName() === 'profile' ? 'active' : '' }}">
-                <i class="bi bi-person-circle fs-5 me-2"></i>
-                Mój profil
-            </a>
-        </li>
-
-        <li>
-            <a href="{{ route('settings') }}"
-                class="nav-link link-body-emphasis {{ Route::current()->getName() === 'settings' ? 'active' : '' }}">
-                <i class="bi bi-gear fs-5 me-2"></i>
-                Ustawienia
-            </a>
-        </li>
-    </ul>
-
-    <div class="dropdown show">
-        <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
-            data-bs-toggle="dropdown" aria-expanded="false">
-            <div class="me-2">
-                <x-avatar width="40px" height="40px" />
-            </div>
-            {{ Auth::user()->name }}
-        </a>
-        <div class="dropdown-menu shadow">
+        @auth
             <li>
-                <button class="dropdown-item" onclick="toggleTheme()">
-                    <i class="bi-moon-stars fs-5 me-2"></i>
-                    Zmień kolor motywu
-                </button>
+                <a href="{{ route('profile', Auth::user()->name) }}"
+                    class="nav-link link-body-emphasis {{ Route::current()->getName() === 'profile' ? 'active' : '' }}">
+                    <i class="bi bi-person-circle fs-5 me-2"></i>
+                    Mój profil
+                </a>
             </li>
 
-            @can('admin')
-                <li>
-                    <a class="dropdown-item" href="#">
-                        <i class="bi bi-sliders fs-5 me-2 text-danger"></i>
-                        Panel administratora
-                    </a>
-                </li>
-            @endcan
+            <li>
+                <a href="{{ route('settings') }}"
+                    class="nav-link link-body-emphasis {{ Route::current()->getName() === 'settings' ? 'active' : '' }}">
+                    <i class="bi bi-gear fs-5 me-2"></i>
+                    Ustawienia
+                </a>
+            </li>
+        @endauth
+    </ul>
 
-            <div class="dropdown-divider"></div>
+    @guest
+        <div class="vstack gap-2" style="flex: 0;">
+            <a class="btn btn-secondary text-left" href="{{ route('login') }}" role="button">
+                <i class="bi bi-box-arrow-in-left fs-5 me-2"></i>
+                Zaloguj się
+            </a>
 
-            <form action="{{ route('logout') }}" method="post">
-                @csrf
+            <a class="btn btn-primary text-left" href="{{ route('register') }}" role="button">
+                <i class="bi bi-person-plus-fill fs-5 me-2"></i>
+                Zarejestruj się
+            </a>
+        </div>
+    @endguest
+
+    @auth
+        <div class="dropdown show">
+            <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
+                data-bs-toggle="dropdown" aria-expanded="false">
+                <div class="me-2">
+                    <x-avatar width="50px" height="50px" />
+                </div>
+
+                <div class="d-flex flex-column me-2">
+                    <span class="fw-bold">{{ Auth::user()->display_name }}</span>
+                    <span class="text-muted">@<span>{{ Auth::user()->name }}</span></span>
+                </div>
+            </a>
+            <div class="dropdown-menu shadow mb-2">
                 <li>
-                    <button type="submit" class="dropdown-item">
-                        <i class="bi bi-box-arrow-left fs-5 me-2"></i>
-                        Wyloguj się
+                    <button class="dropdown-item" onclick="toggleTheme()">
+                        <i class="bi-moon-stars fs-5 me-2"></i>
+                        Zmień kolor motywu
                     </button>
                 </li>
-            </form>
+
+                @can('admin')
+                    <li>
+                        <a class="dropdown-item" href="#">
+                            <i class="bi bi-sliders fs-5 me-2 text-danger"></i>
+                            Panel administratora
+                        </a>
+                    </li>
+                @endcan
+
+                <div class="dropdown-divider"></div>
+
+                <form action="{{ route('logout') }}" method="post">
+                    @csrf
+                    <li>
+                        <button type="submit" class="dropdown-item">
+                            <i class="bi bi-box-arrow-left fs-5 me-2"></i>
+                            Wyloguj się
+                        </button>
+                    </li>
+                </form>
+            </div>
         </div>
-    </div>
+    @endauth
 </div>

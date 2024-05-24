@@ -38,10 +38,10 @@ class RegisterController extends Controller
         ]);
 
         Auth::login($user);
-
         $request->session()->regenerate();
 
-        return redirect('/')
+        return redirect()
+            ->route('home')
             ->with('successToast', 'Zostałeś pomyślnie zarejestrowany!');
     }
 }

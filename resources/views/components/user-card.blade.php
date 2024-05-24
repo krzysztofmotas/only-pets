@@ -16,7 +16,7 @@
             <div class="card-footer border-0 h-100">
         @endif
             <div class="d-flex align-items-center">
-                <div class="me-3">
+                <div class="me-2">
                     <x-avatar :user="$user" width="80px" height="80px" />
                 </div>
                 <div>

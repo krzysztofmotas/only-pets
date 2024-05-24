@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
@@ -37,5 +38,22 @@ class HomeController extends Controller
 
         $suggestedUsers = User::getSuggestedUsers();
         return view('home.search', compact('users', 'suggestedUsers'));
+    }
+
+    public function profile(User $user) {
+        $suggestedUsers = User::getSuggestedUsers();
+
+        $postsCount = $user->posts()->count();
+        $attachmentsCount = $user->posts()->withCount('attachments')->get()->pluck('attachments_count')->sum();
+
+        $daysSinceRegistration = $user->created_at->diffInRealDays(now());
+        $averagePostsPerDay = $daysSinceRegistration > 1.0 ? $postsCount / $daysSinceRegistration : $postsCount;
+
+        return view('home.profile', compact(
+            'user',
+            'suggestedUsers',
+            'postsCount',
+            'attachmentsCount',
+            'averagePostsPerDay'));
     }
 }

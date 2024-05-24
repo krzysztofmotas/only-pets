@@ -16,7 +16,7 @@
             <div class="col">
                 <div class="card">
                     <div id="post-card-header" class="card-header d-flex align-items-center">
-                        <a class="text-decoration-none" href=""><div id="post-user-avatar" class="me-3"></div></a>
+                        <a class="text-decoration-none" href=""><div id="post-user-avatar" class="me-2"></div></a>
                         <div>
                             <h5 class="mb-0">
                                 <a class="text-decoration-none" href=""><span id="post-user-display-name" class="fs-6">display name</span></a>
@@ -167,7 +167,9 @@
         });
 
         function getInitials(displayName) {
-            let nameParts = displayName.split(' ');
+            const cleanName = displayName.replace(/[\p{Emoji}]/gu, ''); // bez emoji
+
+            let nameParts = cleanName.split(' ');
             let initials = '';
 
             if (nameParts.length > 1) {
@@ -179,7 +181,7 @@
                     }
                 });
             } else {
-                initials = displayName.substring(0, 2).toUpperCase();
+                initials = cleanName.substring(0, 2).toUpperCase();
             }
             return initials;
         }
@@ -239,11 +241,9 @@
                         return;
                     }
 
-                    const isAdmin = @json(Auth::user()->isAdmin());
+                    const isAdmin = @json(optional(Auth::user())->isAdmin());
 
                     for (const post of data.posts.data) {
-                        console.log(post);
-
                         const newPost = document.importNode(postTemplate.content, true);
 
                         const postUserAvatar = newPost.getElementById('post-user-avatar');
@@ -268,7 +268,8 @@
                             a.href = profileUrl;
                         });
 
-                        const isAuthor = post.user.id == @json(Auth::user()->id);
+                        const isAuthor = @json(optional(Auth::user())->id);
+
                         if (isAuthor || isAdmin) {
                             const cardHeader = newPost.getElementById('post-card-header');
                             const options = document.importNode(postOptionsDropdownTemplate.content, true);

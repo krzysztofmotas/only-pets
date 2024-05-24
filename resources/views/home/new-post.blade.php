@@ -4,7 +4,8 @@
             <form id="post-create-form" method="post" action="{{ route('post.store') }}" enctype="multipart/form-data">
                 @csrf
                 <div class="card-body">
-                    <textarea id="post-textarea" name="text" class="form-control fs-5" rows="2" placeholder="Jak się mają Twoje zwierzaki? 🐶🦴"></textarea>
+                    <textarea id="post-textarea" name="text" class="form-control fs-5" rows="2"
+                        placeholder="Jak się mają Twoje zwierzaki? 🐶🦴"></textarea>
 
                     <div id="post-carousel" class="carousel slide my-3 d-none">
                         <div id="post-carousel-attachments-container" class="carousel-inner"></div>
@@ -118,7 +119,9 @@
 
             for (const file of files) {
                 if (attachments.length >= MAX_ATTACHMENTS) {
-                    errors.push(`Dodanie kolejnych załączników nie jest możliwe - osiągnięto maksymalną liczbę ${MAX_ATTACHMENTS} załączników.`);
+                    errors.push(
+                        `Dodanie kolejnych załączników nie jest możliwe - osiągnięto maksymalną liczbę ${MAX_ATTACHMENTS} załączników.`
+                    );
                     break;
                 }
 

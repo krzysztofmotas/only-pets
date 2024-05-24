@@ -7,29 +7,11 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 Route::controller(HomeController::class)->group(function () {
-    Route::get('/', function (Request $request) {
-        if ($request->ajax()) {
-            // Log::info('home request by ajax');
-
-            $controller = new HomeController();
-            return $controller->index($request);
-        } else {
-            // Log::info('home request by user');
-
-            if (Auth::check()) {
-                $controller = new HomeController();
-                return $controller->index($request);
-            }
-
-            return view('guest.index');
-        }
-    })->name('home');
-
-    Route::get('/search', 'search')->name('search')->middleware('auth');
+    Route::get('/', 'index')->name('home');
+    Route::get('/search', 'search')->name('search');
+    Route::get('/profile/{user:name}', 'profile')->name('profile');
 });
 
 Route::controller(UserController::class)->middleware('auth')->group(function () {
@@ -42,18 +24,17 @@ Route::controller(UserController::class)->middleware('auth')->group(function () 
     Route::delete('/settings/avatar/delete', 'deleteAvatar')->name('settings.delete.avatar');
     Route::put('/settings/background', 'updateBackground')->name('settings.background');
     Route::delete('/settings/background/delete', 'deleteBackground')->name('settings.delete.background');
-    Route::get('/profile/{user:name}', 'profile')->name('profile');
 });
 
 Route::controller(LoginController::class)->group(function () {
-    Route::get('/auth/login', 'login')->name('login');
-    Route::post('/auth/login', 'handle')->name('login.handle');
-    Route::post('/auth/logout', 'logout')->name('logout')->middleware('auth');
+    Route::get('login', 'login')->name('login');
+    Route::post('login', 'handle')->name('login.handle');
+    Route::post('logout', 'logout')->name('logout')->middleware('auth');
 });
 
 Route::controller(RegisterController::class)->group(function () {
-    Route::get('/auth/register', 'register')->name('register');
-    Route::post('/auth/register', 'handle')->name('register.handle');
+    Route::get('register', 'register')->name('register');
+    Route::post('register', 'handle')->name('register.handle');
 });
 
 Route::controller(PostController::class)->group(function () {

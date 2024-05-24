@@ -13,6 +13,8 @@ class User extends Authenticatable
     const ROLE_USER = 1;
     const ROLE_ADMIN = 2;
 
+    public $timestamps = true;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -56,7 +58,8 @@ class User extends Authenticatable
 
     public static function generateUniqueName($displayName)
     {
-        $name = strtolower(str_replace(' ', '', $displayName));
+        $cleanName = preg_replace('/[^\p{L}\p{N}\s]/u', '', $displayName); // bez emoji
+        $name = strtolower(str_replace(' ', '', $cleanName));
 
         $originalName = $name;
         $counter = 1;
@@ -81,7 +84,9 @@ class User extends Authenticatable
 
     function getInitials(): string
     {
-        $nameParts = explode(' ', $this->display_name);
+        $cleanName = preg_replace('/[^\p{L}\p{N}\s]/u', '', $this->display_name); // bez emoji
+
+        $nameParts = explode(' ', $cleanName);
         $initials = '';
 
         if (count($nameParts) > 1) {
@@ -93,8 +98,9 @@ class User extends Authenticatable
                 }
             }
         } else {
-            $initials = strtoupper(substr($this->display_name, 0, 2));
+            $initials = strtoupper(substr($cleanName, 0, 2));
         }
+
         return $initials;
     }
 
