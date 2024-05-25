@@ -23,18 +23,14 @@
                                     Edytuj profil
                                 </a>
                             @else
-                                @can('has-active-subscription', $user)
-                                    <a href="{{ route('subscription.manage', Auth::user()->getSubscriptionForUser($user)) }}"
-                                        class="btn btn-warning" role="button">
-                                        <i class="bi bi-pencil-square fs-5 me-2"></i>
-                                        Zarządzaj subskrybcją
-                                    </a>
-                                @else
-                                    <a href="{{ route('subscriptions.buy', $user) }}" class="btn btn-success" role="button">
-                                        <i class="bi bi-bag-heart-fill fs-5 me-2"></i>
+                                <a href="{{ route('subscriptions.buy', $user) }}" class="btn btn-success" role="button">
+                                    <i class="bi bi-bag-heart-fill fs-5 me-2"></i>
+                                    @can('has-active-subscription', $user->id)
+                                        Przedłuż subskrybcję
+                                    @else
                                         Kup subskrybcję
-                                    </a>
-                                @endcan
+                                    @endcan
+                                </a>
                             @endif
                         </div>
                     </div>

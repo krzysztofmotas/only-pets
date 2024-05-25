@@ -38,6 +38,20 @@
         </div>
     </template>
 
+    <template id="post-subscription-warning">
+        <div class="alert alert-secondary" role="alert">
+            <p>Przepraszamy, ale nie masz subskrypcji dla tego użytkownika, więc nie możesz zobaczyć zawartości tego
+                posta.</p>
+
+            <div class="text-center">
+                <a href="" class="btn btn-success" role="button">
+                    <i class="bi bi-bag-heart-fill fs-5 me-2"></i>
+                    Subskrybuj teraz
+                </a>
+            </div>
+        </div>
+    </template>
+
     <template id="post-warning-template">
         <div class="row mt-3">
             <div class="col">
@@ -130,21 +144,10 @@
 </div>
 
 @push('body-scripts')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
-
     <script>
         let page = 1,
             loadingPosts = false,
             noMorePosts = false;
-
-        const dateOptions = {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            hour: 'numeric',
-            minute: 'numeric',
-            second: 'numeric'
-        };
 
         const postsContainer = document.getElementById('posts-container');
         const spinnerTemplate = document.getElementById('post-loading-spinner-template');
@@ -222,6 +225,7 @@
         const postCarouselItemTemplate = document.getElementById('post-carousel-item-template');
         const postCarouselControlsTemplate = document.getElementById('post-carousel-controls-template');
         const postOptionsDropdownTemplate = document.getElementById('post-options-dropdown-template');
+        const postSubscriptionWarning = document.getElementById('post-subscription-warning');
 
         function loadMorePosts() {
             showLoadingSpinner();
@@ -274,9 +278,6 @@
 
                         postDate.textContent = formattedDate;
 
-                            const postText = newPost.getElementById('post-text');
-                        postText.textContent = post.text;
-
                         const profileUrl = "{{ route('profile', ':userName') }}".replace(':userName', post.user.name);
 
                         newPost.querySelectorAll('a').forEach(a => {
@@ -298,61 +299,80 @@
                             cardHeader.appendChild(options);
                         }
 
-                        if (post.attachments.length > 0) {
-                            const carousel = document.importNode(postCarouselTemplate.content, true);
-                            const indicators = carousel.getElementById('post-carousel-indicators');
-                            const items = carousel.getElementById('post-carousel-items');
-                            const cardBody = newPost.getElementById('post-card-body');
+                        const cardBody = newPost.getElementById('post-card-body');
+                        const postText = newPost.getElementById('post-text');
 
-                            // <div id="post-carousel-id-" class="carousel slide">
-                            const slide = carousel.getElementById('post-carousel-id-');
-                            slide.id += post.id;
+                        if (!post.is_subscribed) {
+                            postText.textContent = '';
 
-                            let i = 0; // iterator załączników danego posta
-                            for (const attachment of post.attachments) {
-                                if (post.attachments.length > 1) {
-                                    const indicator = document.importNode(postCarouselIndicatorTemplate.content, true);
-                                    const button = indicator.querySelector('button');
+                            const subscriptionWarning = document.importNode(postSubscriptionWarning.content, true);
+                            const a = subscriptionWarning.querySelector('a');
 
-                                    button.setAttribute('data-bs-target', `#post-carousel-id-${post.id}`);
-                                    button.setAttribute('data-bs-slide-to', i);
-                                    button['aria-label'] += i + 1; // "Załącznik "
+                            const buyUrl = "{{ route('subscriptions.buy', ':userId') }}".replace(':userId', post.user
+                                .id);
+                            a.href = buyUrl;
+
+                            cardBody.appendChild(subscriptionWarning);
+                        } else {
+                            postText.textContent = post.text;
+
+                            if (post.attachments.length > 0) {
+                                const carousel = document.importNode(postCarouselTemplate.content, true);
+                                const indicators = carousel.getElementById('post-carousel-indicators');
+                                const items = carousel.getElementById('post-carousel-items');
+
+
+                                // <div id="post-carousel-id-" class="carousel slide">
+                                const slide = carousel.getElementById('post-carousel-id-');
+                                slide.id += post.id;
+
+                                let i = 0; // iterator załączników danego posta
+                                for (const attachment of post.attachments) {
+                                    if (post.attachments.length > 1) {
+                                        const indicator = document.importNode(postCarouselIndicatorTemplate.content,
+                                            true);
+                                        const button = indicator.querySelector('button');
+
+                                        button.setAttribute('data-bs-target', `#post-carousel-id-${post.id}`);
+                                        button.setAttribute('data-bs-slide-to', i);
+                                        button['aria-label'] += i + 1; // "Załącznik "
+
+                                        if (i == 0) {
+                                            button.classList.add('active');
+                                            button['aria-current'] = 'true';
+                                        }
+
+                                        indicators.appendChild(indicator);
+                                    }
+                                    const item = document.importNode(postCarouselItemTemplate.content, true);
 
                                     if (i == 0) {
-                                        button.classList.add('active');
-                                        button['aria-current'] = 'true';
+                                        const div = item.querySelector('div');
+                                        div.classList.add('active');
+                                    }
+                                    const img = item.querySelector('img');
+
+                                    img.src = `{{ asset('attachments/${attachment.file_name}') }}`;
+                                    img.alt += i + 1;
+
+                                    items.appendChild(item);
+
+                                    i++;
+                                }
+
+                                if (post.attachments.length > 1) {
+                                    const controls = document.importNode(postCarouselControlsTemplate.content, true);
+                                    const buttons = controls.querySelectorAll('button');
+
+                                    for (const b of buttons) {
+                                        b.setAttribute('data-bs-target', `#post-carousel-id-${post.id}`);
                                     }
 
-                                    indicators.appendChild(indicator);
+                                    slide.appendChild(controls);
                                 }
-                                const item = document.importNode(postCarouselItemTemplate.content, true);
 
-                                if (i == 0) {
-                                    const div = item.querySelector('div');
-                                    div.classList.add('active');
-                                }
-                                const img = item.querySelector('img');
-
-                                img.src = `{{ asset('attachments/${attachment.file_name}') }}`;
-                                img.alt += i + 1;
-
-                                items.appendChild(item);
-
-                                i++;
+                                cardBody.appendChild(carousel);
                             }
-
-                            if (post.attachments.length > 1) {
-                                const controls = document.importNode(postCarouselControlsTemplate.content, true);
-                                const buttons = controls.querySelectorAll('button');
-
-                                for (const b of buttons) {
-                                    b.setAttribute('data-bs-target', `#post-carousel-id-${post.id}`);
-                                }
-
-                                slide.appendChild(controls);
-                            }
-
-                            cardBody.appendChild(carousel);
                         }
 
                         postsContainer.appendChild(newPost);

@@ -137,7 +137,7 @@ class User extends Authenticatable
             ->exists();
     }
 
-    public function getSubscriptionForUser($id): Subscription
+    public function getSubscriptionForUser($id): ?Subscription
     {
         return $this->subscriptions()
             ->where('subscribed_user_id', $id)

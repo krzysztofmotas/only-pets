@@ -6,6 +6,7 @@ use App\Models\Post;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -16,6 +17,24 @@ class HomeController extends Controller
                 'user:id,name,display_name,avatar',
                 'attachments:post_id,file_name'
             ])->orderBy('created_at', 'desc')->paginate(10);
+
+            /** @var \App\Models\User $user **/
+            $user = Auth::user();
+
+            $posts->getCollection()->transform(function ($post) use ($user) {
+                if ($user) {
+                    $post->is_subscribed = ($user->id == $post->user->id || $user->isAdmin()) ? true : $user->hasActiveSubscriptionFor($post->user_id);
+                } else {
+                    $post->is_subscribed = false;
+                }
+
+                if (!$post->is_subscribed) {
+                    unset($post->text);
+                    unset($post->attachments);
+                }
+
+                return $post;
+            });
 
             return response()->json([
                 'posts' => $posts,
@@ -40,7 +59,8 @@ class HomeController extends Controller
         return view('home.search', compact('users', 'suggestedUsers'));
     }
 
-    public function profile(User $user) {
+    public function profile(User $user)
+    {
         $suggestedUsers = User::getSuggestedUsers();
 
         $postsCount = $user->posts()->count();
@@ -54,6 +74,7 @@ class HomeController extends Controller
             'suggestedUsers',
             'postsCount',
             'attachmentsCount',
-            'averagePostsPerDay'));
+            'averagePostsPerDay'
+        ));
     }
 }

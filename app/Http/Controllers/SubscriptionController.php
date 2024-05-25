@@ -5,6 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Subscription;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Stripe\Stripe;
+use Stripe\PaymentIntent;
+use Exception;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 class SubscriptionController extends Controller
 {
@@ -13,10 +18,10 @@ class SubscriptionController extends Controller
         return view('subscriptions.buy', compact('user'));
     }
 
-    public function manageView(Subscription $subscription)
-    {
-        return view('subscriptions.manage', compact('subscription'));
-    }
+    // public function manageView(Subscription $subscription)
+    // {
+    //     return view('subscriptions.manage', compact('subscription'));
+    // }
 
     public function store(Request $request, User $user)
     {
@@ -24,8 +29,64 @@ class SubscriptionController extends Controller
             'cc-name' => 'required|string|max:255',
             'cc-number' => 'required|digits:16',
             'cc-expiration' => 'required|date_format:m/y',
-            'cc-cvv' => 'required|digits:3'
+            'cc-cvv' => 'required|digits:3',
+            'length' => 'required|numeric|min:1'
         ]);
+
+        Stripe::setApiKey(env('STRIPE_SECRET'));
+
+        try {
+            $paymentIntent = PaymentIntent::create([
+                'amount' => 200,
+                'currency' => 'pln',
+                'payment_method' => 'pm_card_visa',
+                'confirm' => true,
+                'automatic_payment_methods' => [
+                    'enabled' => true,
+                    'allow_redirects' => 'never'
+                ]
+            ]);
+
+            /** @var \App\Models\User $subscriber **/
+            $subscriber = Auth::user();
+            $length = (int) $request->input('length');
+
+            $now = Carbon::now();
+            $endDate = $now->copy()->addMonth($length);
+
+            $existingSubscription = $subscriber->getSubscriptionForUser($user->id);
+            if ($existingSubscription) {
+                $existingEndDate = Carbon::parse($existingSubscription->end_at);
+
+                if ($existingEndDate->isFuture()) {
+                    $remainingSeconds = $now->diffInSeconds($existingEndDate);
+                    $endDate->addSeconds($remainingSeconds);
+                }
+
+                $existingSubscription->is_active = false;
+                $existingSubscription->update();
+            }
+
+            Subscription::create([
+                'subscriber_user_id' => $subscriber->id,
+                'subscribed_user_id' => $user->id,
+                'started_at' => now(),
+                'end_at' => $endDate->toDateTime(),
+                'price' => env('SUBSCRIPTION_MONTH_PRICE') * $length,
+            ]);
+
+            return redirect()->route('subscriptions.buy.success');
+        } catch (Exception $e) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->with('paymentError', $e->getMessage());
+        }
+    }
+
+    public function success()
+    {
+        return view('subscriptions.success');
     }
 
     /**
