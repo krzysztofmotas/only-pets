@@ -9,11 +9,11 @@
                 </div>
             </div>
 
-            {{-- @if (View::hasSection('right-column')) --}}
+            @if (View::hasSection('right-column'))
                 <div class="col-6 p-3 border-start border-end">
-            {{-- @else
+            @else
                 <div class="col-9 p-3 border-start border-end">
-            @endif --}}
+            @endif
             <div class="container">
                 @hasSection('title')
                     <h4 class="mb-3">@yield('title')</h4>

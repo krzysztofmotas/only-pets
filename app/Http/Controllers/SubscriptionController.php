@@ -10,9 +10,26 @@ use Stripe\PaymentIntent;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Log;
 
 class SubscriptionController extends Controller
 {
+    public function index(Request $request)
+    {
+        $filter = $request->query('filter', 'all');
+
+         /** @var \App\Models\User $subscriber **/
+        $subscriber = Auth::user();
+        $subscriptionsQuery = $subscriber->subscriptions()->with(['subscribedUser:id,name']);
+
+        if ($filter !== 'all') {
+            $subscriptionsQuery->where('is_active', $filter === 'active' ? true : false);
+        }
+        $subscriptions = $subscriptionsQuery->paginate(2);
+
+        return view('subscriptions.index', compact('subscriptions', 'filter'));
+    }
+
     public function buyView(User $user)
     {
         $subscriber = Auth::user();
@@ -54,31 +71,29 @@ class SubscriptionController extends Controller
             ]);
             $length = (int) $request->input('length');
 
-            $now = Carbon::now();
-            $endDate = $now->copy()->addMonth($length);
+            $isNewSubscription = false;
 
             $existingSubscription = $subscriber->getSubscriptionForUser($user->id);
             if ($existingSubscription) {
-                $existingEndDate = Carbon::parse($existingSubscription->end_at);
+                $endDateTime = Carbon::parse($existingSubscription->end_at);
+                $endDateTime->addMonth($length);
 
-                if ($existingEndDate->isFuture()) {
-                    $remainingSeconds = $now->diffInSeconds($existingEndDate);
-                    $endDate->addSeconds($remainingSeconds);
-                }
-
-                $existingSubscription->is_active = false;
+                $existingSubscription->end_at = $endDateTime->toDateTime();
                 $existingSubscription->update();
+            } else {
+                $endDateTime = Carbon::now()->addMonth($length);
+
+                $subscriber->subscriptions()->create([
+                    'subscribed_user_id' => $user->id,
+                    'started_at' => now(),
+                    'end_at' => $endDateTime->toDateTime(),
+                    'price' => env('SUBSCRIPTION_MONTH_PRICE') * $length,
+                ]);
+
+                $isNewSubscription = true;
             }
 
-            Subscription::create([
-                'subscriber_user_id' => $subscriber->id,
-                'subscribed_user_id' => $user->id,
-                'started_at' => now(),
-                'end_at' => $endDate->toDateTime(),
-                'price' => env('SUBSCRIPTION_MONTH_PRICE') * $length,
-            ]);
-
-            return redirect()->route('subscriptions.buy.success');
+            return to_route('subscriptions.success');
         } catch (Exception $e) {
             return redirect()
                 ->back()
@@ -87,40 +102,8 @@ class SubscriptionController extends Controller
         }
     }
 
-    public function success()
+    public function successView()
     {
         return view('subscriptions.success');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Subscription $subscription)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Subscription $subscription)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Subscription $subscription)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Subscription $subscription)
-    {
-        //
     }
 }

@@ -21,7 +21,7 @@
             </li>
 
             <li>
-                <a href=""
+                <a href="{{ route('subscriptions.index') }}"
                     class="nav-link link-body-emphasis {{ str_contains(Route::current()->getName(), 'subscriptions') ? 'active' : '' }}">
                     <i class="bi bi-bag-heart-fill fs-5 me-2"></i>
                     Moje subskrybcje

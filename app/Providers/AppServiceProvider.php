@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Post;
 use App\Policies\PostPolicy;
+use Illuminate\Pagination\Paginator;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -39,5 +40,7 @@ class AppServiceProvider extends ServiceProvider
         Gate::define('is-active-subscriber', function (User $user, $id) {
             return $user->hasActiveSubscriptionFrom($id);
         });
+
+        Paginator::useBootstrapFive();
     }
 }
