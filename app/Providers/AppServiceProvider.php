@@ -7,8 +7,6 @@ use App\Models\User;
 use Illuminate\Support\Facades\Gate;
 use App\Models\Post;
 use App\Policies\PostPolicy;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Blade;
 
 class AppServiceProvider extends ServiceProvider
 {

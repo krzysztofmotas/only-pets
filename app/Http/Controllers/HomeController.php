@@ -20,21 +20,7 @@ class HomeController extends Controller
 
             /** @var \App\Models\User $user **/
             $user = Auth::user();
-
-            $posts->getCollection()->transform(function ($post) use ($user) {
-                if ($user) {
-                    $post->is_subscribed = ($user->id == $post->user->id || $user->isAdmin()) ? true : $user->hasActiveSubscriptionFor($post->user_id);
-                } else {
-                    $post->is_subscribed = false;
-                }
-
-                if (!$post->is_subscribed) {
-                    unset($post->text);
-                    unset($post->attachments);
-                }
-
-                return $post;
-            });
+            $posts = self::processPosts($posts, $user);
 
             return response()->json([
                 'posts' => $posts,
@@ -59,8 +45,24 @@ class HomeController extends Controller
         return view('home.search', compact('users', 'suggestedUsers'));
     }
 
-    public function profile(User $user)
+    public function profile(Request $request, User $user)
     {
+        if ($request->ajax()) {
+            $posts = $user->posts()->with([
+                'user:id,name,display_name,avatar',
+                'attachments:post_id,file_name'
+            ])->orderBy('created_at', 'desc')->paginate(10);
+
+            /** @var \App\Models\User $user **/
+            $user = Auth::user();
+            $posts = self::processPosts($posts, $user);
+
+            return response()->json([
+                'posts' => $posts,
+                'next_page_url' => $posts->nextPageUrl()
+            ]);
+        }
+
         $suggestedUsers = User::getSuggestedUsers();
 
         $postsCount = $user->posts()->count();
@@ -76,5 +78,25 @@ class HomeController extends Controller
             'attachmentsCount',
             'averagePostsPerDay'
         ));
+    }
+
+    private static function processPosts($posts, $user = null)
+    {
+        $posts->transform(function ($post) use ($user) {
+            if ($user) {
+                $post->is_subscribed = ($user->id == $post->user->id || $user->isAdmin()) ? true : $user->hasActiveSubscriptionFor($post->user_id);
+            } else {
+                $post->is_subscribed = false;
+            }
+
+            if (!$post->is_subscribed) {
+                unset($post->text);
+                unset($post->attachments);
+            }
+
+            return $post;
+        });
+
+        return $posts;
     }
 }

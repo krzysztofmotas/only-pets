@@ -5,8 +5,8 @@
 @endsection
 
 @section('center-column')
-    <div class="col">
-        <div class="row">
+    <div class="row">
+        <div class="col">
             <div class="card p-0">
                 <div class="rounded-top text-white d-flex flex-row"
                     style="height: 200px; {{ $user->background ? 'background-image: url(' . asset('backgrounds/' . $user->background) . '); background-size: cover; background-position: center;' : '' }}">
@@ -89,6 +89,9 @@
             </div>
         </div>
     </div>
+
+    <h4 class="my-3">Posty</h4>
+    @include('home.posts-feed')
 @endsection
 
 @section('right-column')

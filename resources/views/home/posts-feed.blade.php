@@ -308,8 +308,7 @@
                             const subscriptionWarning = document.importNode(postSubscriptionWarning.content, true);
                             const a = subscriptionWarning.querySelector('a');
 
-                            const buyUrl = "{{ route('subscriptions.buy', ':userId') }}".replace(':userId', post.user
-                                .id);
+                            const buyUrl = "{{ route('subscriptions.buy', ':userName') }}".replace(':userName', post.user.name);
                             a.href = buyUrl;
 
                             cardBody.appendChild(subscriptionWarning);
@@ -320,7 +319,6 @@
                                 const carousel = document.importNode(postCarouselTemplate.content, true);
                                 const indicators = carousel.getElementById('post-carousel-indicators');
                                 const items = carousel.getElementById('post-carousel-items');
-
 
                                 // <div id="post-carousel-id-" class="carousel slide">
                                 const slide = carousel.getElementById('post-carousel-id-');

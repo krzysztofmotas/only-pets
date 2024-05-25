@@ -16,10 +16,9 @@ Route::controller(HomeController::class)->group(function () {
 });
 
 Route::controller(SubscriptionController::class)->middleware('auth')->group(function () {
-    Route::get('/subscriptions/buy/{user}', 'buyView')->name('subscriptions.buy');
-    Route::post('/subscriptions/buy/{user}', 'store')->name('subscriptions.store');
+    Route::get('/subscriptions/buy/{user:name}', 'buyView')->name('subscriptions.buy');
+    Route::post('/subscriptions/buy/{user:name}', 'store')->name('subscriptions.store');
     Route::get('/subscriptions/buy/success', 'success')->name('subscriptions.buy.success');
-    // Route::get('/subscriptions/manage/{subscription}', 'manageView')->name('subscriptions.manage');
 });
 
 Route::controller(UserController::class)->middleware('auth')->group(function () {

@@ -206,7 +206,7 @@
     "The given data was invalid.": "Podane dane były nieprawidłowe.",
     "The response is not a streamed response.": "Odpowiedź nie jest odpowiedzią przesyłaną strumieniowo.",
     "The response is not a view.": "Odpowiedź nie jest widokiem.",
-    "This action is unauthorized.": "To działanie jest niedozwolone.",
+    "This action is unauthorized.": "To działanie jest niedozwolone",
     "This password reset link will expire in :count minutes.": "Link do resetowania hasła wygaśnie za :count minut.",
     "to": "do",
     "Toggle navigation": "Przełącz nawigację",

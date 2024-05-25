@@ -15,16 +15,22 @@ class SubscriptionController extends Controller
 {
     public function buyView(User $user)
     {
+        $subscriber = Auth::user();
+        if ($subscriber->id == $user->id) {
+            abort(403);
+        }
+
         return view('subscriptions.buy', compact('user'));
     }
 
-    // public function manageView(Subscription $subscription)
-    // {
-    //     return view('subscriptions.manage', compact('subscription'));
-    // }
-
     public function store(Request $request, User $user)
     {
+        /** @var \App\Models\User $subscriber **/
+        $subscriber = Auth::user();
+        if ($subscriber->id == $user->id) {
+            abort(403);
+        }
+
         $request->validate([
             'cc-name' => 'required|string|max:255',
             'cc-number' => 'required|digits:16',
@@ -36,7 +42,7 @@ class SubscriptionController extends Controller
         Stripe::setApiKey(env('STRIPE_SECRET'));
 
         try {
-            $paymentIntent = PaymentIntent::create([
+            PaymentIntent::create([
                 'amount' => 200,
                 'currency' => 'pln',
                 'payment_method' => 'pm_card_visa',
@@ -46,9 +52,6 @@ class SubscriptionController extends Controller
                     'allow_redirects' => 'never'
                 ]
             ]);
-
-            /** @var \App\Models\User $subscriber **/
-            $subscriber = Auth::user();
             $length = (int) $request->input('length');
 
             $now = Carbon::now();
