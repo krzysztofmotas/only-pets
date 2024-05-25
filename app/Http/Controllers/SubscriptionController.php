@@ -70,6 +70,7 @@ class SubscriptionController extends Controller
                 ]
             ]);
             $length = (int) $request->input('length');
+            $price = env('SUBSCRIPTION_MONTH_PRICE') * $length;
 
             $isNewSubscription = false;
 
@@ -79,6 +80,7 @@ class SubscriptionController extends Controller
                 $endDateTime->addMonth($length);
 
                 $existingSubscription->end_at = $endDateTime->toDateTime();
+                $existingSubscription->price = $price;
                 $existingSubscription->update();
             } else {
                 $endDateTime = Carbon::now()->addMonth($length);
@@ -87,7 +89,7 @@ class SubscriptionController extends Controller
                     'subscribed_user_id' => $user->id,
                     'started_at' => now(),
                     'end_at' => $endDateTime->toDateTime(),
-                    'price' => env('SUBSCRIPTION_MONTH_PRICE') * $length,
+                    'price' => $price,
                 ]);
 
                 $isNewSubscription = true;
