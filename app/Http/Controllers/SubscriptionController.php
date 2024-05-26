@@ -11,6 +11,7 @@ use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Mail\Markdown;
 
 class SubscriptionController extends Controller
 {
@@ -18,7 +19,7 @@ class SubscriptionController extends Controller
     {
         $filter = $request->query('filter', 'all');
 
-         /** @var \App\Models\User $subscriber **/
+        /** @var \App\Models\User $subscriber **/
         $subscriber = Auth::user();
         $subscriptionsQuery = $subscriber->subscriptions()->with(['subscribedUser:id,name']);
 
@@ -83,6 +84,8 @@ class SubscriptionController extends Controller
                 $existingSubscription->price = $price;
                 $existingSubscription->show_notification = true;
                 $existingSubscription->update();
+
+                $toastMessage = 'Przedłużyłeś subskrypcję dla użytkownika <strong>' . $user->name . '</strong>!<br><br>Nowa data ważności: ';
             } else {
                 $endDateTime = Carbon::now()->addMonth($length);
 
@@ -94,19 +97,16 @@ class SubscriptionController extends Controller
                 ]);
 
                 $isNewSubscription = true;
+                $toastMessage = 'Kupiłeś subskrypcję dla użytkownika <strong>' . $user->name . '</strong>!<br><br>Data ważności: ';
             }
+            $toastMessage .=  $endDateTime->translatedFormat('d F Y, H:i') . '<br>Cena subskrypcji: <strong>' . $price . 'zł</strong>';
 
-            return to_route('subscriptions.success');
+            return to_route('profile', $user)->with('successToast', Markdown::parse($toastMessage));
         } catch (Exception $e) {
             return redirect()
                 ->back()
                 ->withInput()
                 ->with('paymentError', $e->getMessage());
         }
-    }
-
-    public function successView()
-    {
-        return view('subscriptions.success');
     }
 }

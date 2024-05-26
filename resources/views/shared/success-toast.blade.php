@@ -1,10 +1,13 @@
 @if (Session::has('successToast'))
-    <div id="success-toast" style="z-index: 2000;"
-        class="toast text-bg-success position-absolute top-0 start-50 translate-middle-x mt-3" role="alert"
-        aria-live="assertive" aria-atomic="true">
-        <div class="d-flex">
-            <div class="toast-body">{{ Session::get('successToast') }}</div>
-            <button type="button" class="btn-close me-2 m-auto" data-bs-dismiss="toast" aria-label="Zamknij"></button>
+    <div id="success-toast" class="toast position-absolute top-3 start-50 translate-middle-x mt-3" style="z-index: 2000;"
+        role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <span class="badge text-bg-primary me-2 fs-6">❤️</span>
+            <strong class="me-auto">Sukces</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Zamknij"></button>
+        </div>
+        <div class="toast-body">
+            {{ Session::get('successToast') }}
         </div>
     </div>
 

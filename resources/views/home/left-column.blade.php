@@ -60,7 +60,7 @@
                     <x-avatar />
 
                     @php
-                        $notificationsCount = Auth::user()->notificationsCount();
+                        $notificationsCount = Auth::user()->getNotificationsCount();
                     @endphp
 
                     @if ($notificationsCount)

@@ -144,7 +144,7 @@ class User extends Authenticatable
             ->first();
     }
 
-    public function notificationsCount()
+    public function getNotificationsCount()
     {
         $oneWeekFromNow = Carbon::now()->addWeek();
 
