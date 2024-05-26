@@ -23,7 +23,7 @@ class SubscriptionController extends Controller
         $subscriptionsQuery = $subscriber->subscriptions()->with(['subscribedUser:id,name']);
 
         if ($filter !== 'all') {
-            $subscriptionsQuery->where('is_active', $filter === 'active' ? true : false);
+            $subscriptionsQuery->where('end_at', $filter === 'active' ? '>' : '<=', now());
         }
         $subscriptions = $subscriptionsQuery->paginate(2);
 
@@ -81,6 +81,7 @@ class SubscriptionController extends Controller
 
                 $existingSubscription->end_at = $endDateTime->toDateTime();
                 $existingSubscription->price = $price;
+                $existingSubscription->show_notification = true;
                 $existingSubscription->update();
             } else {
                 $endDateTime = Carbon::now()->addMonth($length);

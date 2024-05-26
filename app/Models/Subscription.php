@@ -13,7 +13,7 @@ class Subscription extends Model
         'price',
         'started_at',
         'end_at',
-        'is_active',
+        'show_notification',
     ];
 
     public $timestamps = false;

@@ -13,6 +13,9 @@ Route::controller(HomeController::class)
         Route::get('/', 'index')->name('home');
         Route::get('/search', 'search')->name('search');
         Route::get('/profile/{user:name}', 'profile')->name('profile');
+
+        Route::get('/notifications', 'getNotifications')->middleware('auth')->name('notifications');
+        Route::get('/notifications/clear', 'clearNotifications')->middleware('auth')->name('notifications.clear');
     });
 
 Route::controller(SubscriptionController::class)

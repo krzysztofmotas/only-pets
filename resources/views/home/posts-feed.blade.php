@@ -268,13 +268,7 @@
 
                         const postDate = newPost.getElementById('post-date');
                         const date = new Date(post.created_at);
-                        const formattedDate = Intl.DateTimeFormat('pl-PL', {
-                            year: "numeric",
-                            month: "long",
-                            day: "numeric",
-                            hour: "numeric",
-                            minute: "2-digit"
-                        }).format(date);
+                        const formattedDate = Intl.DateTimeFormat('pl-PL', dateOptions).format(date);
 
                         postDate.textContent = formattedDate;
 

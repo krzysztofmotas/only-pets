@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Carbon;
 
 class User extends Authenticatable
 {
@@ -123,7 +124,6 @@ class User extends Authenticatable
     {
         return $this->subscriptions()
             ->where('subscribed_user_id', $id)
-            ->where('is_active', true)
             ->where('end_at', '>', now())
             ->exists();
     }
@@ -132,7 +132,6 @@ class User extends Authenticatable
     {
         return $this->subscribedBy()
             ->where('subscriber_user_id', $id)
-            ->where('is_active', true)
             ->where('end_at', '>', now())
             ->exists();
     }
@@ -141,8 +140,17 @@ class User extends Authenticatable
     {
         return $this->subscriptions()
             ->where('subscribed_user_id', $id)
-            ->where('is_active', true)
             ->where('end_at', '>', now())
             ->first();
+    }
+
+    public function notificationsCount()
+    {
+        $oneWeekFromNow = Carbon::now()->addWeek();
+
+        return $this->subscriptions()
+            ->where('show_notification', true)
+            ->where('end_at', '<=', $oneWeekFromNow)
+            ->count();
     }
 }

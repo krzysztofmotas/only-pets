@@ -17,7 +17,7 @@ return new class extends Migration
             $table->foreignId('subscriber_user_id')->constrained('users');
             $table->foreignId('subscribed_user_id')->constrained('users');
             $table->integer('price');
-            $table->boolean('is_active')->default(true);
+            $table->boolean('show_notification')->default(true);
             $table->dateTime('started_at');
             $table->dateTime('end_at');
         });

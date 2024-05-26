@@ -56,8 +56,20 @@
         <div class="dropdown show">
             <a href="#" class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
                 data-bs-toggle="dropdown" aria-expanded="false">
-                <div class="me-2">
+                <div class="me-2 position-relative">
                     <x-avatar />
+
+                    @php
+                        $notificationsCount = Auth::user()->notificationsCount();
+                    @endphp
+
+                    @if ($notificationsCount)
+                        <div data-bs-toggle="tooltip" data-bs-title="Posiadasz powiadomienia"
+                            class="position-absolute top-0 end-0 translate-middle bg-danger rounded-circle d-flex justify-content-center align-items-center"
+                            style="width: 20px; height: 20px; margin-top: 5px; margin-right: -10px;">
+                            <small>{{ $notificationsCount }}</small>
+                        </div>
+                    @endif
                 </div>
 
                 <div class="d-flex flex-column me-2">
@@ -66,6 +78,102 @@
                 </div>
             </a>
             <div class="dropdown-menu shadow mb-2">
+                <li>
+                    <button class="dropdown-item" data-bs-toggle="modal" data-bs-target="#notificationsModal">
+                        <i id="notifications-bell" class="bi bi-bell{{ $notificationsCount > 0 ? '-fill' : '' }} fs-5 me-2"></i>
+                        Powiadomienia
+                    </button>
+
+                    {{-- Kod okienka trzeba wyciągnąć poza <div class="position-fixed h-100 p-3">,
+                        ponieważ następuje konflikt i okienko pokazuje się częściowo. --}}
+
+                    @push('body-scripts')
+                        <div class="modal fade" id="notificationsModal" tabindex="-1" aria-labelledby="notificationsModalLabel"
+                            aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="nofiticationsModalLabel">Powiadomienia</h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div id="notificationsContent">
+                                            @if ($notificationsCount > 0)
+                                                <div class="d-flex justify-content-center">
+                                                    <div class="spinner-border" role="status">
+                                                        <span class="visually-hidden">Ładowanie...</span>
+                                                    </div>
+                                                </div>
+                                            @else
+                                                Nie posiadasz nowych powiadomień.
+                                            @endif
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        @if ($notificationsCount > 0)
+                                            <form action="{{ route('notifications.clear') }}">
+                                                @csrf
+                                                <button type="submit" class="btn btn-primary">Wyczyść</button>
+                                            </form>
+                                        @endif
+
+                                        <button type="button" class="btn btn-secondary"
+                                            data-bs-dismiss="modal">Zamknij</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        @if ($notificationsCount > 0)
+                            <script>
+                                const notificationsModal = document.getElementById('notificationsModal');
+
+                                notificationsModal.addEventListener('show.bs.modal', function() {
+                                    const notificationsContent = document.getElementById('notificationsContent');
+
+                                    fetch("{{ route('notifications') }}")
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            console.log(data);
+
+                                            if (!data) {
+                                                content = 'Nie posiadasz nowych powiadomień.';
+                                            } else {
+                                                content = '<ul class="list-group">';
+
+                                                for (const notification of data) {
+                                                    const endDate = new Date(notification.end_at);
+                                                    const profileUrl = "{{ route('profile', ':userName') }}".replace(':userName',
+                                                        notification.subscribed_user.name);
+
+                                                    let message = '';
+                                                    if (endDate < new Date()) {
+                                                        message = 'Subskrypcja dla użytkownika ' +
+                                                            `<a href="${profileUrl}">${notification.subscribed_user.name}</a>` +
+                                                            ' zakończyła się.';
+                                                    } else {
+                                                        message = 'Subskrypcja dla użytkownika ' +
+                                                            `<a href="${profileUrl}">${notification.subscribed_user.name}</a>` +
+                                                            ` kończy się ${endDate.toLocaleString('pl-PL', dateOptions)}.`;
+                                                    }
+
+                                                    content += `<li class="list-group-item">${message}</li>`;
+                                                }
+
+                                                content += '</ul>';
+                                            }
+                                            notificationsContent.innerHTML = content;
+                                        })
+                                        .catch(error => {
+                                            notificationsContent.innerHTML =
+                                                'Wystąpił błąd podczas ładowania powiadomień.<br>' + error;
+                                        });
+                                });
+                            </script>
+                        @endif
+                    @endpush
+                </li>
                 <li>
                     <button class="dropdown-item" onclick="toggleTheme()">
                         <i class="bi-moon-stars fs-5 me-2"></i>

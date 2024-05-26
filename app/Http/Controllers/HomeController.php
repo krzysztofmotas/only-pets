@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
 
 class HomeController extends Controller
 {
@@ -98,5 +99,38 @@ class HomeController extends Controller
         });
 
         return $posts;
+    }
+
+    public function getNotifications(Request $request)
+    {
+        /** @var \App\Models\User $user **/
+        $user = Auth::user();
+        $oneWeekFromNow = Carbon::now()->addWeek();
+
+        $notifications = $user->subscriptions()
+            ->with(['subscribedUser:id,name'])
+            ->where('show_notification', true)
+            ->where('end_at', '<=', $oneWeekFromNow)
+            ->get();
+
+        return response()->json($notifications);
+    }
+
+    public function clearNotifications()
+    {
+        /** @var \App\Models\User $user **/
+        $user = Auth::user();
+        $oneWeekFromNow = Carbon::now()->addWeek();
+
+        $user->subscriptions()
+            ->where('show_notification', true)
+            ->where('end_at', '<=', $oneWeekFromNow)
+            ->update([
+                'show_notification' => false
+            ]);
+
+        return redirect()
+            ->back()
+            ->with('successToast', 'Powiadomienia zostały wyczyszczone.');
     }
 }

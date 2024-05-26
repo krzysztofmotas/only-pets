@@ -31,6 +31,14 @@
             localStorage.setItem("theme", newTheme);
             html.dataset.bsTheme = newTheme;
         }
+
+        const dateOptions = {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "2-digit"
+        };
     </script>
 </head>
 
