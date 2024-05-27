@@ -72,12 +72,15 @@ class HomeController extends Controller
         $daysSinceRegistration = $user->created_at->diffInRealDays(now());
         $averagePostsPerDay = $daysSinceRegistration > 1.0 ? $postsCount / $daysSinceRegistration : $postsCount;
 
+        $subscriptionsCount = $user->subscribedBy()->where('end_at', '>', now())->count();
+
         return view('home.profile', compact(
             'user',
             'suggestedUsers',
             'postsCount',
             'attachmentsCount',
-            'averagePostsPerDay'
+            'averagePostsPerDay',
+            'subscriptionsCount'
         ));
     }
 
