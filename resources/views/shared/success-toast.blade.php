@@ -20,4 +20,8 @@
             });
         </script>
     @endpush
+
+    @php
+        Session::forget('successToast');
+    @endphp
 @endif

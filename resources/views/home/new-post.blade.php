@@ -76,8 +76,25 @@
         const attachmentsContainer = document.getElementById('post-carousel-attachments-container');
         const carousel = document.getElementById('post-carousel');
         const controlsContainer = document.getElementById('post-carousel-controls-container');
+        const errorContainer = document.getElementById('post-errors-container');
 
         const attachments = [];
+        let errors = [];
+
+        function processErrors() {
+            errorContainer.innerHTML = '';
+
+            for (const error of errors) {
+                const p = document.createElement('p');
+                p.classList.add('text-danger', 'mb-0');
+                p.textContent = error;
+
+                errorContainer.appendChild(p);
+            }
+
+            errorContainer.classList.toggle('mt-3', errors.length > 0);
+            errors = [];
+        }
 
         newPostForm.addEventListener('submit', async (event) => {
             event.preventDefault();
@@ -104,7 +121,17 @@
                 if (response.ok) {
                     window.location.reload();
                 } else {
-                    console.error(response.statusText);
+                    const errorData = await response.json();
+                    if (errorData.errors) {
+                        for (const [field, messages] of Object.entries(errorData.errors)) {
+                            messages.forEach(message => {
+                                errors.push(message);
+                            });
+                        }
+                        processErrors();
+                    } else {
+                        console.error(response.statusText);
+                    }
                 }
             } catch (error) {
                 console.error('Błąd podczas wysyłania żądania:', error);
@@ -113,8 +140,6 @@
 
         postAttachmentsInput.addEventListener('change', (event) => {
             const files = event.target.files;
-            const errors = [];
-
             const MAX_ATTACHMENTS = 5;
 
             for (const file of files) {
@@ -186,18 +211,7 @@
 
             carousel.classList.toggle('d-none', attachments.length == 0);
 
-            const errorContainer = document.getElementById('post-errors-container');
-            errorContainer.innerHTML = '';
-
-            for (const error of errors) {
-                const p = document.createElement('p');
-                p.classList.add('text-danger', 'mb-0');
-                p.textContent = error;
-
-                errorContainer.appendChild(p);
-            }
-
-            errorContainer.classList.toggle('mt-3', errors.length > 0);
+            processErrors();
         });
 
         attachmentsContainer.addEventListener('click', (event) => {

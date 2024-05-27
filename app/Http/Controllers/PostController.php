@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Session;
 
 class PostController extends Controller
 {
@@ -17,11 +19,29 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
         // $this->authorize('store');
+        $hasAttachments = $request->has('attachments');
 
-        // TODO
-        // $request->validate([
-        //     'files.*' => 'image|mimes:jpeg,png,jpg,gif', // |max:2048
-        // ]);
+        $rules = [
+            'attachments.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'text' => $hasAttachments ? '' : 'required|' . 'string|max:255',
+        ];
+
+        $messages = [
+            'attachments.*.max' => 'Załącznik nr :index nie może być większy niż :max kilobajtów.',
+            'attachments.*.mimes' => 'Załącznik nr :index musi być plikiem typu: :values.',
+            'attachments.*.image' => 'Załącznik nr :index musi być obrazem.',
+            'text.required' => 'Treść wiadomości jest wymagana, jeśli nie dodano żadnych załączników.',
+        ];
+
+        $validator = Validator::make($request->all(), $rules, $messages);
+
+        if ($validator->fails()) {
+            return response()->json([
+                'success' => false,
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
         $user = Auth::user();
 
         /** @var \App\Models\User $user **/
@@ -29,7 +49,7 @@ class PostController extends Controller
             'text' => $request->input('text'),
         ]);
 
-        if ($request->has('attachments')) {
+        if ($hasAttachments) {
             foreach ($request->attachments as $file) {
                 $path = Storage::putFile('public/images/attachments', $file);
 
@@ -43,19 +63,20 @@ class PostController extends Controller
 
         Log::info('Stworzono nowy post', ['post_id' => $post->id, 'user_id' => $user->id]);
 
-        // return redirect()
-        //     ->back()
-        //     ->with('successToast', 'Twój nowy post został pomyślnie dodany!');
+        Session::put('successToast' , 'Twój post został pomyślnie dodany!');
+        return response()->noContent();
     }
 
     public function edit(Post $post)
     {
         $this->authorize('update', $post);
+
+        // return view('home.edit-post', compact());
     }
 
     public function update(UpdatePostRequest $request, Post $post)
     {
-        $this->authorize('update', $post);
+       //  $this->authorize('update', $post);
     }
 
     public function destroy(Post $post)
