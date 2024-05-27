@@ -140,12 +140,12 @@
 
         postAttachmentsInput.addEventListener('change', (event) => {
             const files = event.target.files;
-            const MAX_ATTACHMENTS = 5;
+            const max = @json(env('MAX_POST_ATTACHMENTS'));
 
             for (const file of files) {
-                if (attachments.length >= MAX_ATTACHMENTS) {
+                if (attachments.length >= max) {
                     errors.push(
-                        `Dodanie kolejnych załączników nie jest możliwe - osiągnięto maksymalną liczbę ${MAX_ATTACHMENTS} załączników.`
+                        `Dodanie kolejnych załączników nie jest możliwe - osiągnięto maksymalną liczbę ${max} załączników.`
                     );
                     break;
                 }
@@ -175,11 +175,11 @@
                         break;
                 }
 
-                // <img src="" class="img-thumbnail" alt="...">
+                // <img src="" class="img-fluid rounded border mx-auto d-block" alt="...">
                 const img = document.createElement('img');
                 img.src = URL.createObjectURL(file);
                 img.alt = file.name;
-                img.classList.add('img-thumbnail');
+                img.classList.add('img-fluid', 'rounded', 'border', 'mx-auto', 'd-block');
                 carouselItem.append(img);
 
                 // <div class="carousel-caption d-block bottom-0">
@@ -204,7 +204,7 @@
                 // Odblokowanie przycisku "Wyślij".
                 submitButton.disabled = false;
 
-                if (attachments.length >= MAX_ATTACHMENTS) {
+                if (attachments.length >= max) {
                     postAttachmentsInput.disabled = true;
                 }
             }
@@ -251,58 +251,7 @@
         textarea.addEventListener('keyup', () => {
             submitButton.toggleAttribute('disabled', !textarea.value.trim().length > 0);
         });
-
-        const htmlElement = document.querySelector('html');
-        const theme = htmlElement.getAttribute('data-bs-theme');
-
-        const emojiButton = document.getElementById('post-emoji-button');
-        const pickerOptions = {
-            onEmojiSelect: onClickEmoji,
-            locale: 'pl',
-            theme: theme,
-            emojiButtonColors: [
-                'rgba(155, 223, 88, .7)',
-                'rgba(149, 211, 254, .7)',
-                'rgba(247, 233, 34, .7)',
-                'rgba(238, 166, 252, .7)',
-                'rgba(255, 213, 143, .7)',
-                'rgba(211, 209, 255, .7)',
-            ],
-        }
-        const emojiPicker = new EmojiMart.Picker(pickerOptions)
-
-        let emojiPickerVisible = false;
-
-        emojiButton.addEventListener('click', (event) => {
-            event.stopPropagation(); // Zatrzymuje propagację kliknięcia, aby nie wywoływać zamykania pickera
-            const buttonRect = emojiButton.getBoundingClientRect();
-
-            if (!emojiPickerVisible) {
-                emojiPicker.style.position = 'absolute';
-                emojiPicker.style.top = (buttonRect.bottom + window.scrollY) + 'px';
-                emojiPicker.style.left = (buttonRect.left + window.scrollX) + 'px';
-                document.body.appendChild(emojiPicker);
-                emojiPickerVisible = true;
-            } else {
-                document.body.removeChild(emojiPicker);
-                emojiPickerVisible = false;
-            }
-        });
-
-        document.addEventListener('click', (event) => {
-            if (!emojiPicker.contains(event.target)) {
-                if (emojiPickerVisible) {
-                    document.body.removeChild(emojiPicker);
-                    emojiPickerVisible = false;
-                }
-            }
-        });
-
-        function onClickEmoji(event) {
-            const emoji = event.native;
-            textarea.value += emoji;
-
-            submitButton.disabled = false;
-        }
     </script>
 @endpush
+
+@include('shared.emoji-picker')

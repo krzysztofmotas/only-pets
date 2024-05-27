@@ -57,6 +57,9 @@ Route::controller(PostController::class)
     ->group(function () {
         Route::post('/post/store', 'store')->name('post.store');
         Route::delete('/post/destroy/{post}', 'destroy')->name('post.destroy');
+        Route::get('/post/edit/{post:id}', 'edit')->name('post.edit');
+        Route::put('/post/update/{post}', 'update')->name('post.update');
+        Route::delete('/post/attachment/delete/{attachment}', 'deleteAttachment')->name('post.attachment.delete');
     });
 
 // https://stackoverflow.com/questions/73261188/laravel-auth-component-not-available-on-error-views

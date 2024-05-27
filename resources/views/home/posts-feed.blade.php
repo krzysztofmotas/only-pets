@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div id="post-card-body" class="card-body">
-                        <p id="post-text" class="card-text">tekst</p>
+                        <p id="post-text" class="card-text m-0">tekst</p>
                     </div>
                     {{-- <div class="card-footer d-flex justify-content-between"></div> --}}
                 </div>
@@ -68,7 +68,7 @@
 
     <template id="post-carousel-item-template">
         <div class="carousel-item">
-            <img src="" class="img-thumbnail" alt="Załącznik ">
+            <img src="" class="img-fluid rounded border mx-auto d-block" alt="Załącznik ">
         </div>
     </template>
 
@@ -102,9 +102,9 @@
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="postMenuButton">
                     <li>
-                        <button class="dropdown-item" type="button">
+                        <a id="post-options-edit-button" class="dropdown-item" type="button">
                             <i class="bi bi-pencil-square fs-5 me-2"></i>Edytuj post
-                        </button>
+                        </a>
                     </li>
                     <li>
                         <button class="dropdown-item" type="button" data-bs-toggle="modal"
@@ -231,7 +231,7 @@
             showLoadingSpinner();
 
             const url = `?page=${page}`;
-            console.log(`loadMorePosts -> page: ${page}`);
+            // console.log(`loadMorePosts -> page: ${page}`);
 
             fetch(url, {
                     headers: {
@@ -268,9 +268,15 @@
 
                         const postDate = newPost.getElementById('post-date');
                         const date = new Date(post.created_at);
-                        const formattedDate = Intl.DateTimeFormat('pl-PL', dateOptions).format(date);
+                        const updateDate = new Date(post.updated_at);
 
-                        postDate.textContent = formattedDate;
+                        const formattedDate = Intl.DateTimeFormat('pl-PL', dateOptions).format(date);
+                        postDate.textContent = formattedDate + ' ';
+
+                        if (date.getTime() !== updateDate.getTime()) {
+                            const formattedUpdateDate = Intl.DateTimeFormat('pl-PL', dateOptions).format(updateDate);
+                            postDate.textContent += '(edytowany ' + formattedUpdateDate + ')';
+                        }
 
                         const profileUrl = "{{ route('profile', ':userName') }}".replace(':userName', post.user.name);
 
@@ -278,13 +284,16 @@
                             a.href = profileUrl;
                         });
 
-                        const isAuthor = @json(optional(Auth::user())->id);
+                        const isAuthor = @json(optional(Auth::user())->id) == post.user.id;
 
                         if (isAuthor || isAdmin) {
                             const cardHeader = newPost.getElementById('post-card-header');
                             const options = document.importNode(postOptionsDropdownTemplate.content, true);
                             const form = options.getElementById('post-options-modal-destroy-form');
                             form.action = `{{ route('post.destroy', '') }}/${post.id}`;
+
+                            const editButton = options.getElementById('post-options-edit-button');
+                            editButton.href = `{{ route('post.edit', '') }}/${post.id}`;
 
                             options.querySelector("[id='post-options-modal-id-']").id += post.id;
                             options.querySelector("[data-bs-target='#post-options-modal-id-']").setAttribute(
@@ -302,12 +311,16 @@
                             const subscriptionWarning = document.importNode(postSubscriptionWarning.content, true);
                             const a = subscriptionWarning.querySelector('a');
 
-                            const buyUrl = "{{ route('subscriptions.buy', ':userName') }}".replace(':userName', post.user.name);
+                            const buyUrl = "{{ route('subscriptions.buy', ':userName') }}".replace(':userName', post
+                                .user.name);
                             a.href = buyUrl;
 
                             cardBody.appendChild(subscriptionWarning);
                         } else {
                             postText.textContent = post.text;
+                            if (post.text) {
+                                postText.classList.remove('m-0');
+                            }
 
                             if (post.attachments.length > 0) {
                                 const carousel = document.importNode(postCarouselTemplate.content, true);
