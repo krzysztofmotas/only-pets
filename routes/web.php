@@ -11,7 +11,7 @@ use App\Http\Controllers\SubscriptionController;
 Route::controller(HomeController::class)
     ->group(function () {
         Route::get('/', 'index')->name('home');
-        Route::get('/search', 'search')->name('search');
+        Route::get('/search/{nav?}', 'search')->name('search');
         Route::get('/profile/{user:name}', 'profile')->name('profile');
 
         Route::get('/notifications', 'getNotifications')->middleware('auth')->name('notifications');

@@ -3,7 +3,7 @@
     @method('put')
     <div class="form-floating mb-3">
         <textarea id="bio" class="form-control w-auto @error('bio') is-invalid @enderror" name="bio" placeholder="Bio"
-            maxlength="1000" rows="5">{{ old('bio', Auth::user()->bio) }}</textarea>
+            maxlength="1000" cols="35" rows="10">{{ old('bio', Auth::user()->bio) }}</textarea>
 
         <label for="bio" class="form-label">Bio</label>
 

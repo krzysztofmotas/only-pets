@@ -1,8 +1,9 @@
 <div class="d-flex flex-column navbar navbar-expand-sm h-100 pt-0 pb-0 pb-sm-3">
     <div class="d-flex align-items-center justify-content-between w-100 mb-sm-3">
-        <div>
+        <div class="mx-0 mx-sm-auto mx-xl-3">
             <a href="/" class="mb-3 link-body-emphasis text-decoration-none fs-4">
-                {{ config('app.name') }}
+                <span class="d-inline d-sm-none d-xl-inline">{{ config('app.name') }}</span>
+                <span class="d-none d-sm-inline d-xl-none">OP</span>
             </a>
         </div>
 
@@ -47,6 +48,14 @@
                         </a>
                     </li>
                 @endauth
+
+                <li class="nav-item d-flex d-lg-none">
+                    <a href="{{ route('search', ['nav' => true]) }}"
+                        class="nav-link link-body-emphasis {{ Route::current()->getName() === 'search' ? 'active' : '' }}">
+                        <i class="bi bi-search fs-5"></i>
+                        <span class="d-sm-none d-xl-inline ms-2">Wyszukiwanie</span>
+                    </a>
+                </li>
             </ul>
 
             @guest
@@ -64,6 +73,14 @@
             @endguest
 
             @auth
+                <style>
+                    @media (min-width: 576px) and (max-width: 1199.08px) {
+                        .dropdown-toggle::after {
+                           display: none !important;
+                        }
+                    }
+                </style>
+
                 <div class="dropdown dropup show mt-3">
                     <a href="#"
                         class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
@@ -84,7 +101,7 @@
                             @endif
                         </div>
 
-                        <div class="d-flex flex-column mx-2 d-none d-xl-flex">
+                        <div class="d-flex flex-column mx-2 d-sm-none d-xl-flex">
                             <span class="fw-bold">{{ Auth::user()->display_name }}</span>
                             <span class="text-muted">@<span>{{ Auth::user()->name }}</span></span>
                         </div>

@@ -33,8 +33,12 @@ class HomeController extends Controller
         return view('home.index', compact('suggestedUsers'));
     }
 
-    public function search(Request $request)
+    public function search(Request $request, $nav = false)
     {
+        if ($nav) {
+            return view('home.search', compact('nav'));
+        }
+
         $query = $request->input('query');
 
         $users = User::where(function ($q) use ($query) {
@@ -43,7 +47,7 @@ class HomeController extends Controller
         })->take(10)->get();
 
         $suggestedUsers = User::getSuggestedUsers();
-        return view('home.search', compact('users', 'suggestedUsers'));
+        return view('home.search', compact('users', 'suggestedUsers', 'nav'));
     }
 
     public function profile(Request $request, User $user)
