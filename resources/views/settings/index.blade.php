@@ -19,9 +19,8 @@
 @section('center-column')
     <div class="row mt-3">
         <div class="col">
-            <div class="d-flex align-items-start w-100">
-                <div class="nav flex-column nav-pills me-3 border rounded p-3 w-50" id="v-pills-tab" role="tablist"
-                    aria-orientation="vertical">
+            <div class="d-flex flex-column rounded border p-3 align-items-start w-100">
+                <div class="nav nav-pills rounded mb-3" id="v-pills-tab" role="tablist">
                     <button class="nav-link text-start link-body-emphasis" id="v-pills-name-tab" data-bs-toggle="pill"
                         data-bs-target="#v-pills-name" type="button" role="tab" aria-controls="v-pills-name"
                         aria-selected="true">
@@ -59,28 +58,29 @@
                         Inne informacje
                     </button>
                 </div>
+
                 <div class="tab-content w-100" id="v-pills-tabContent">
-                    <div class="tab-pane fade ms-2" id="v-pills-name" role="tabpanel" aria-labelledby="v-pills-name-tab"
+                    <div class="tab-pane fade" id="v-pills-name" role="tabpanel" aria-labelledby="v-pills-name-tab"
                         tabindex="0">
                         @include('settings.name')
                     </div>
-                    <div class="tab-pane fade ms-2" id="v-pills-display-name" role="tabpanel"
+                    <div class="tab-pane fade" id="v-pills-display-name" role="tabpanel"
                         aria-labelledby="v-pills-display-name-tab" tabindex="0">
                         @include('settings.display-name')
                     </div>
-                    <div class="tab-pane fade ms-2" id="v-pills-password" role="tabpanel"
+                    <div class="tab-pane fade" id="v-pills-password" role="tabpanel"
                         aria-labelledby="v-pills-password-tab" tabindex="0">
                         @include('settings.password')
                     </div>
-                    <div class="tab-pane fade ms-2" id="v-pills-avatar" role="tabpanel" aria-labelledby="v-pills-avatar-tab"
+                    <div class="tab-pane fade" id="v-pills-avatar" role="tabpanel" aria-labelledby="v-pills-avatar-tab"
                         tabindex="0">
                         @include('settings.avatar')
                     </div>
-                    <div class="tab-pane fade ms-2" id="v-pills-background" role="tabpanel"
+                    <div class="tab-pane fade" id="v-pills-background" role="tabpanel"
                         aria-labelledby="v-pills-background-tab" tabindex="0">
                         @include('settings.background')
                     </div>
-                    <div class="tab-pane fade ms-2" id="v-pills-other" role="tabpanel" aria-labelledby="v-pills-other-tab"
+                    <div class="tab-pane fade" id="v-pills-other" role="tabpanel" aria-labelledby="v-pills-other-tab"
                         tabindex="0">
                         @include('settings.other')
                     </div>

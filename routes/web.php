@@ -23,7 +23,6 @@ Route::controller(SubscriptionController::class)
     ->group(function () {
         Route::get('/subscriptions/buy/{user:name}', 'buyView')->name('subscriptions.buy');
         Route::post('/subscriptions/buy/{user:name}', 'store')->name('subscriptions.store');
-        Route::get('/subscriptions/buy/success', 'successView')->name('subscriptions.success');
         Route::get('/subscriptions', 'index')->name('subscriptions.index');
     });
 

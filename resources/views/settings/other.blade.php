@@ -2,7 +2,7 @@
     @csrf
     @method('put')
     <div class="form-floating mb-3">
-        <textarea id="bio" class="form-control h-100 @error('bio') is-invalid @enderror" name="bio" placeholder="Bio"
+        <textarea id="bio" class="form-control w-auto @error('bio') is-invalid @enderror" name="bio" placeholder="Bio"
             maxlength="1000" rows="5">{{ old('bio', Auth::user()->bio) }}</textarea>
 
         <label for="bio" class="form-label">Bio</label>
@@ -15,7 +15,7 @@
     </div>
 
     <div class="form-floating mb-3">
-        <input id="location" class="form-control @error('location') is-invalid @enderror" name="location"
+        <input id="location" class="form-control w-auto @error('location') is-invalid @enderror" name="location"
             placeholder="Miejscowość" value="{{ old('location', Auth::user()->location) }}" maxlength="64">
 
         <label for="location" class="form-label">Miejscowość</label>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="form-floating mb-3">
-        <input id="website-url" class="form-control @error('website-url') is-invalid @enderror" name="website-url"
+        <input id="website-url" class="form-control w-auto @error('website-url') is-invalid @enderror" name="website-url"
             placeholder="Adres strony internetowej" value="{{ old('website-url', Auth::user()->website_url) }}"
             maxlength="100">
 

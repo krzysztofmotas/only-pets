@@ -2,7 +2,7 @@
     @csrf
     @method('put')
     <div class="form-floating mb-3">
-        <input id="name" class="form-control @error('name') is-invalid @enderror" name="name" required
+        <input id="name" class="form-control w-auto @error('name') is-invalid @enderror" name="name" required
             placeholder="Nazwa" value="{{ old('name', Auth::user()->name) }}" maxlength="24">
 
         <label for="name" class="form-label">Nazwa</label>

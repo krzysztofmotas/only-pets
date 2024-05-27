@@ -21,36 +21,38 @@
                     Brak subskrybcji do wyświetlenia.
                 </div>
             @else
-                <table class="table table-striped table-hover mt-3 border">
-                    <thead>
-                        <tr>
-                            <th scope="col">#</th>
-                            <th>Użytkownik</th>
-                            <th>Data rozpoczęcia</th>
-                            <th>Data zakończenia</th>
-                            <th>Cena</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($subscriptions as $key => $subscription)
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover mt-3 border">
+                        <thead>
                             <tr>
-                                <th scope="row">{{ $key + 1 }}</th>
-                                <td>
-                                    <a href="{{ route('profile', $subscription->subscribedUser) }}">
-                                        {{ $subscription->subscribedUser->name }}
-                                    </a>
-                                </td>
-
-                                {{-- https://stackoverflow.com/questions/35149189/use-carbon-function-in-laravel-viewblade-template --}}
-                                <td>{{ \Carbon\Carbon::parse($subscription->started_at)->translatedFormat('d F Y, H:i') }}
-                                </td>
-                                <td>{{ \Carbon\Carbon::parse($subscription->end_at)->translatedFormat('d F Y, H:i') }}
-                                </td>
-                                <td>{{ $subscription->price }} zł</td>
+                                <th scope="col">#</th>
+                                <th>Użytkownik</th>
+                                <th>Data rozpoczęcia</th>
+                                <th>Data zakończenia</th>
+                                <th>Cena</th>
                             </tr>
-                        @endforeach
-                    </tbody>
-                </table>
+                        </thead>
+                        <tbody>
+                            @foreach ($subscriptions as $key => $subscription)
+                                <tr>
+                                    <th scope="row">{{ $key + 1 }}</th>
+                                    <td>
+                                        <a href="{{ route('profile', $subscription->subscribedUser) }}">
+                                            {{ $subscription->subscribedUser->name }}
+                                        </a>
+                                    </td>
+
+                                    {{-- https://stackoverflow.com/questions/35149189/use-carbon-function-in-laravel-viewblade-template --}}
+                                    <td>{{ \Carbon\Carbon::parse($subscription->started_at)->translatedFormat('d F Y, H:i') }}
+                                    </td>
+                                    <td>{{ \Carbon\Carbon::parse($subscription->end_at)->translatedFormat('d F Y, H:i') }}
+                                    </td>
+                                    <td>{{ $subscription->price }} zł</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
 
                 <div class="d-flex justify-content-center">
                     {{ $subscriptions->links() }}
