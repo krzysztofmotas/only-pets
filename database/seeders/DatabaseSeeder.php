@@ -20,8 +20,7 @@ class DatabaseSeeder extends Seeder
             PostSeeder::class,
             PostAttachmentSeeder::class,
             ReactionSeeder::class,
-            PostReactionSeeder::class,
-            SubscriptionSeeder::class,
+            PostReactionSeeder::class
         ]);
     }
 }

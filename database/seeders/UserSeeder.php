@@ -18,68 +18,62 @@ class UserSeeder extends Seeder
             User::truncate();
         });
 
-        $seederPassword = Hash::make('1234');
         $users = [
             [
-                // TODO: uzupełnić bio, website_url, avatar i background
-
-                'name' => 'jankowalski',
-                'display_name' => 'Jan Kowalski',
-                'email' => 'jankowalski@email.com',
-                'password' => $seederPassword,
-                'bio' => '',
+                'name' => 'kotszeryf',
+                'display_name' => 'Kot Szeryf',
+                'location' => 'Rzeszów',
+                'bio' => 'Jestem Kot Szeryf, stróż praw i porządku na terenie Rzeszowa. Moja misja? Zapewnić, by każdy miał równy dostęp do smacznych przekąsek! 🐾',
+                'website_url' => '',
+                'avatar' => 'szeryf.jpeg',
+                'background' => 'szeryf.jpg',
+                'email' => 'kotszeryf@email.com',
+            ],
+            [
+                'name' => 'chomikhenio',
+                'display_name' => 'Chomik Henio',
                 'location' => 'Warszawa',
+                'bio' => 'Jestem energicznym chomikiem, który uwielbia biegać w swoim kółku i gryźć smaczne przekąski!',
                 'website_url' => '',
-                'avatar' => '',
-                'background' => '',
+                'avatar' => 'henio.jpg',
+                'background' => 'henio.jpg',
+                'email' => 'chomikhenio@email.com',
             ],
             [
-                'name' => 'annanowak',
-                'display_name' => 'Anna Nowak',
-                'email' => 'annanowak@email.com',
-                'password' => $seederPassword,
-                'bio' => '',
-                'location' => 'Kraków',
-                'website_url' => '',
-                'avatar' => '',
-                'background' => '',
-            ],
-            [
-                'name' => 'piotrszymanski',
-                'display_name' => 'Piotr Szymański',
-                'email' => 'piotrszymanski@email.com',
-                'password' => $seederPassword,
-                'bio' => '',
+                'name' => 'kroliczekbaska',
+                'display_name' => 'Króliczek Baśka',
                 'location' => 'Gdańsk',
+                'bio' => 'Jestem puszystym królikiem, który uwielbia skakać po ogrodzie i jeść świeże warzywa.',
                 'website_url' => '',
-                'avatar' => '',
-                'background' => '',
+                'avatar' => 'baska.jpg',
+                'background' => 'baska.jpg',
+                'email' => 'kroliczekbaska@email.com',
             ],
             [
-                'name' => 'katarzynazajac',
-                'display_name' => 'Katarzyna Zając',
-                'email' => 'katarzynazajac@email.com',
-                'password' => $seederPassword,
-                'bio' => '',
+                'name' => 'kotkafiga',
+                'display_name' => 'Kotka Figa',
                 'location' => 'Łódź',
+                'bio' => 'Jestem ciekawską kotką, która uwielbia wspinaczki, polowania na zabawki i długie drzemki na kanapie.',
                 'website_url' => '',
-                'avatar' => '',
-                'background' => '',
+                'avatar' => 'figa.jpg',
+                'background' => 'figa.jpg',
+                'email' => 'kotkafiga@email.com',
             ],
             [
-                'name' => 'michalgorski',
-                'display_name' => 'Michał Górski',
-                'email' => 'michalgorski@email.com',
-                'password' => $seederPassword,
-                'bio' => '',
-                'location' => 'Wrocław',
+                'name' => 'papugakasia',
+                'display_name' => 'Papuga Kasia',
+                'location' => 'Szczecin',
+                'bio' => 'Jestem papugą, która uwielbia rozmawiać, śpiewać i naśladować dźwięki z otoczenia.',
                 'website_url' => '',
-                'avatar' => '',
-                'background' => '',
+                'avatar' => 'kasia.jpg',
+                'background' => 'kasia.jpg',
+                'email' => 'papugakasia@email.com',
             ],
         ];
 
+        $seederPassword = Hash::make('1234');
         foreach ($users as $user) {
+            $user['password'] = $seederPassword;
             User::create($user);
         }
 
