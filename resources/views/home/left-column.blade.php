@@ -94,7 +94,7 @@
 
                             @if ($notificationsCount)
                                 <div data-bs-toggle="tooltip" data-bs-title="Posiadasz powiadomienia"
-                                    class="position-absolute top-0 end-0 translate-middle bg-danger rounded-circle d-flex justify-content-center align-items-center"
+                                    class="position-absolute top-0 end-0 translate-middle bg-danger border border-2 rounded-circle d-flex justify-content-center align-items-center"
                                     style="width: 20px; height: 20px; margin-top: 5px; margin-right: -10px;">
                                     <small>{{ $notificationsCount }}</small>
                                 </div>
@@ -103,7 +103,7 @@
 
                         <div class="d-flex flex-column mx-2 d-sm-none d-xl-flex">
                             <span class="fw-bold">{{ Auth::user()->display_name }}</span>
-                            <span class="text-muted">@<span>{{ Auth::user()->name }}</span></span>
+                            <span class="text-muted">{{ Auth::user()->name }}</span>
                         </div>
                     </a>
                     <div class="dropdown-menu shadow mb-2">

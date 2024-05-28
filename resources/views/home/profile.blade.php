@@ -16,9 +16,9 @@
                             <x-avatar :user="$user" size="150px" />
                         </div>
 
-                        <div>
-                            <h5 class="mb-0">{{ $user->display_name }}</h5>
-                            <p class="mb-0"><span class="text-muted">@<span>{{ $user->name }}</span></span></p>
+                        <div class="bg-dark p-2 rounded shadow" style="--bs-bg-opacity: .5;">
+                            <h6 class="mb-0">{{ $user->display_name }}</h6>
+                            <p class="mb-0"><span class="text-muted">{{ $user->name }}</span></p>
                         </div>
                     </div>
                 </div>
@@ -43,7 +43,7 @@
                         <div class="container mt-3 mt-xxl-0 w-auto me-xxl-0">
                             <div class="row gap-2 justify-content-center text-center">
                                 <div class="col-auto px-0">
-                                    <p class="mb-1 h5">{{ $subscriptionsCount }}</p>
+                                    <p class="mb-1 h5">{{ count($subscriptions) }}</p>
                                     <p class="small text-muted mb-0">Subskrybentów</p>
                                 </div>
                                 <div class="col-auto px-0">
@@ -95,6 +95,46 @@
             </div>
         </div>
     </div>
+
+    @if (optional(Auth::user())->isAdmin() || optional(Auth::user())->id == $user->id)
+        <div class="accordion mt-3" id="accordionSubscribers">
+            <div class="accordion-item">
+                <h2 class="accordion-header">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
+                        Subskrybenci
+                    </button>
+                </h2>
+                <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionSubscribers">
+                    <div class="accordion-body">
+                        @if ($subscriptions->isEmpty())
+                            <p>Brak subskrybentów.</p>
+                        @else
+                            <ul class="list-group">
+                                @foreach ($subscriptions as $subscription)
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <a class="text-decoration-none"
+                                                href="{{ route('profile', $subscription->subscriber) }}">
+                                                {{ $subscription->subscriber->display_name }}
+                                                <span
+                                                    class="badge bg-secondary">{{ $subscription->subscriber->name }}</span>
+                                            </a>
+                                        </div>
+                                        <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
+                                            data-bs-title="Data początku subskrybcji">
+                                            {{ \Carbon\Carbon::parse($subscription->started_at)->translatedFormat('d F Y, H:i') }}
+                                            <span class="badge bg-secondary"><i class="bi bi-calendar-check align-middle"></i></span>
+                                        </button>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
 
     <h4 class="my-3">Posty</h4>
     @include('home.posts-feed')

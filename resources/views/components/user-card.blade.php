@@ -22,7 +22,7 @@
                 <div>
                     <h5 class="card-title mb-0 fs-5 {{ $user->background ? 'text-white' : ''}}">{{ $user->display_name }}</h5>
                     <p class="card-text text-muted fs-6" {{ $user->background ? 'data-bs-theme=dark' : ''}}>
-                        @<span>{{ $user->name }}</span>
+                        {{ $user->name }}
                     </p>
                 </div>
             </div>

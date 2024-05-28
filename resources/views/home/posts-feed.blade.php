@@ -23,8 +23,11 @@
                             <h5 class="mb-0">
                                 <a class="text-decoration-none" href=""><span id="post-user-display-name"
                                         class="fs-6">display name</span></a>
-                                <a href=""><span id="post-user-name"
-                                        class="badge text-bg-secondary fs-6">name</span></a>
+                                <a href="">
+                                    <span class="badge text-bg-secondary">
+                                        <small id="post-user-name">name</small>
+                                    </span>
+                                </a>
                             </h5>
                             <small id="post-date" class="text-muted">date</small>
                         </div>
@@ -264,7 +267,7 @@
                         postUserDisplayName.textContent = post.user.display_name;
 
                         const postUserName = newPost.getElementById('post-user-name');
-                        postUserName.textContent = `@${post.user.name}`;
+                        postUserName.textContent = `${post.user.name}`;
 
                         const postDate = newPost.getElementById('post-date');
                         const date = new Date(post.created_at);
