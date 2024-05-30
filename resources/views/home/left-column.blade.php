@@ -75,13 +75,13 @@
             @auth
                 <style>
                     @media (min-width: 576px) and (max-width: 1199.08px) {
-                        .dropdown-toggle::after {
+                        #user-dropdown .dropdown-toggle::after {
                            display: none !important;
                         }
                     }
                 </style>
 
-                <div class="dropdown dropup show mt-3">
+                <div id="user-dropdown" class="dropdown dropup show mt-3">
                     <a href="#"
                         class="d-flex align-items-center link-body-emphasis text-decoration-none dropdown-toggle"
                         data-bs-toggle="dropdown" aria-expanded="false">

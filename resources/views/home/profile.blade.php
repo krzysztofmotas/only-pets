@@ -18,7 +18,7 @@
 
                         <div class="bg-dark p-2 rounded shadow" style="--bs-bg-opacity: .5;">
                             <h6 class="mb-0">{{ $user->display_name }}</h6>
-                            <p class="mb-0"><span class="text-muted">{{ $user->name }}</span></p>
+                            <p class="mb-0">{{ $user->name }}</p>
                         </div>
                     </div>
                 </div>
@@ -116,6 +116,7 @@
                                         <div>
                                             <a class="text-decoration-none"
                                                 href="{{ route('profile', $subscription->subscriber) }}">
+                                                <x-avatar :user="$subscription->subscriber" size="40px" />
                                                 {{ $subscription->subscriber->display_name }}
                                                 <span
                                                     class="badge bg-secondary">{{ $subscription->subscriber->name }}</span>

@@ -5,8 +5,7 @@
 @section('center-column')
     <div class="row">
         <div class="col">
-            <form method="GET" action="{{ route('subscriptions.index') }}">
-                @csrf
+            <form method="get" action="{{ route('subscriptions.index') }}">
                 <label for="filter" class="form-label fw-bold">Filtruj subskrypcje</label>
 
                 <select name="filter" class="form-select w-auto" onchange="this.form.submit()">
@@ -35,19 +34,20 @@
                         <tbody>
                             @foreach ($subscriptions as $key => $subscription)
                                 <tr>
-                                    <th scope="row">{{ $key + 1 }}</th>
-                                    <td>
-                                        <a href="{{ route('profile', $subscription->subscribedUser) }}">
+                                    <th class="align-middle" scope="row">{{ $key + 1 }}</th>
+                                    <td class="align-middle">
+                                        <a href="{{ route('profile', $subscription->subscribedUser) }}" class="text-decoration-none">
+                                            <x-avatar :user="$subscription->subscribedUser" size="40px" />
                                             {{ $subscription->subscribedUser->name }}
                                         </a>
                                     </td>
 
                                     {{-- https://stackoverflow.com/questions/35149189/use-carbon-function-in-laravel-viewblade-template --}}
-                                    <td>{{ \Carbon\Carbon::parse($subscription->started_at)->translatedFormat('d F Y, H:i') }}
+                                    <td class="align-middle">{{ \Carbon\Carbon::parse($subscription->started_at)->translatedFormat('d F Y, H:i') }}
                                     </td>
-                                    <td>{{ \Carbon\Carbon::parse($subscription->end_at)->translatedFormat('d F Y, H:i') }}
+                                    <td class="align-middle">{{ \Carbon\Carbon::parse($subscription->end_at)->translatedFormat('d F Y, H:i') }}
                                     </td>
-                                    <td>{{ $subscription->price }} zł</td>
+                                    <td class="align-middle">{{ $subscription->price }} zł</td>
                                 </tr>
                             @endforeach
                         </tbody>

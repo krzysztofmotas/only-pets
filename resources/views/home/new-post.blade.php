@@ -22,14 +22,15 @@
                                 <span class="visually-hidden">Następny</span>
                             </button>
                         </div>
-
-                        <div id="post-errors-container"></div>
                     </div>
+
+                    <div id="post-errors-container"></div>
 
                     <div class="card-footer rounded border mt-3">
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                {{-- Accept any file with an image/* MIME type. (Many mobile devices also let the user take a picture with the camera when this is used.) --}}
+                                {{-- Accept any file with an image/* MIME type.
+                                (Many mobile devices also let the user take a picture with the camera when this is used.) --}}
                                 <input type="file" id="post-attachments-input" accept="image/*" multiple
                                     class="d-none">
 
@@ -155,10 +156,12 @@
                     continue;
                 }
 
-                // if (file.size > 7000) {
-                //     errors.push(`Rozmiar pliku ${file.name} przekracza limit 7MB.`);
-                //     continue;
-                // }
+                console.log(file.size);
+
+                if (file.size > 2048) {
+                    errors.push(`Rozmiar pliku ${file.name} przekracza limit 2MB.`);
+                    continue;
+                }
 
                 attachments.push(file);
 

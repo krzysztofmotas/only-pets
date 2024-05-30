@@ -21,7 +21,7 @@ class SubscriptionController extends Controller
 
         /** @var \App\Models\User $subscriber **/
         $subscriber = Auth::user();
-        $subscriptionsQuery = $subscriber->subscriptions()->with(['subscribedUser:id,name']);
+        $subscriptionsQuery = $subscriber->subscriptions()->with(['subscribedUser:id,name,avatar']);
 
         if ($filter !== 'all') {
             $subscriptionsQuery->where('end_at', $filter === 'active' ? '>' : '<=', now());
@@ -73,8 +73,6 @@ class SubscriptionController extends Controller
             $length = (int) $request->input('length');
             $price = env('SUBSCRIPTION_MONTH_PRICE') * $length;
 
-            $isNewSubscription = false;
-
             $existingSubscription = $subscriber->getSubscriptionForUser($user->id);
             if ($existingSubscription) {
                 $endDateTime = Carbon::parse($existingSubscription->end_at);
@@ -96,7 +94,6 @@ class SubscriptionController extends Controller
                     'price' => $price,
                 ]);
 
-                $isNewSubscription = true;
                 $toastMessage = 'Kupiłeś subskrypcję dla użytkownika <strong>' . $user->name . '</strong>!<br><br>Data ważności: ';
             }
             $toastMessage .=  $endDateTime->translatedFormat('d F Y, H:i') . '<br>Cena subskrypcji: <strong>' . $price . 'zł</strong>';

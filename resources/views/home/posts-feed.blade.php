@@ -99,7 +99,7 @@
 
     <template id="post-options-dropdown-template">
         <div class="ms-auto">
-            <div class="dropdown">
+            <div class="dropdown dropstart">
                 <button class="btn btn-link dropdown-toggle" id="postMenuButton" data-bs-toggle="dropdown"
                     aria-expanded="false" data-bs-toggle="tooltip" title="Opcje">
                 </button>
