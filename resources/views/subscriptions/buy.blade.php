@@ -34,12 +34,12 @@
                     <br>
                     <br>
                     <span class="text-warning">
-                        Zakup subskrybcji na jeden miesiąc, będzie Cię kosztować
+                        Zakup subskrypcji na jeden miesiąc, będzie Cię kosztować
                         <strong>{{ env('SUBSCRIPTION_MONTH_PRICE') }} zł</strong>. Ta płatność jest jednorazowa.
                     </span>
                 </div>
 
-                <h5 class="my-3">Ustawienia subskrybcji</h5>
+                <h5 class="my-3">Ustawienia subskrypcji</h5>
                 <div class="row gy-2">
                     <div class="col-md-6">
                         <div class="form-floating mb-3">
@@ -77,8 +77,8 @@
 
                 @can('has-active-subscription', $user->id)
                     <div class="alert alert-info" role="alert">
-                        <strong>Posiadasz aktywną subskrybcję dla tego użytkownika!</strong> Oznacza to, że Twoja
-                        aktualna subskrybcja zostanie przedłużona o czas, który wybierzesz.
+                        <strong>Posiadasz aktywną subskrypcję dla tego użytkownika!</strong> Oznacza to, że Twoja
+                        aktualna subskrypcja zostanie przedłużona o czas, który wybierzesz.
                     </div>
                 @endcan
 

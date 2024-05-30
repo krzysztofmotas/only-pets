@@ -41,7 +41,7 @@ class PostSeeder extends Seeder
             [
                 'id' => 6,
                 'user_id' => 3,
-                'text' => 'Zapraszam do subskrybowania mnie. Na 100 subskrybcji robimy spotkanie dla fanów! 💅',
+                'text' => 'Zapraszam do subskrybowania mnie. Na 100 subskrypcji robimy spotkanie dla fanów! 💅',
             ],
             [
                 'id' => 7,

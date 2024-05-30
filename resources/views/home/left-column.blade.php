@@ -36,7 +36,7 @@
                         <a href="{{ route('subscriptions.index') }}"
                             class="nav-link link-body-emphasis {{ str_contains(Route::current()->getName(), 'subscriptions') ? 'active' : '' }}">
                             <i class="bi bi-bag-heart-fill fs-5"></i>
-                            <span class="d-sm-none d-xl-inline ms-2">Moje subskrybcje</span>
+                            <span class="d-sm-none d-xl-inline ms-2">Moje subskrypcje</span>
                         </a>
                     </li>
 

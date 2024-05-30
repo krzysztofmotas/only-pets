@@ -1,13 +1,13 @@
 @extends('home.template')
 
-@section('title', 'Moje subskrybcje')
+@section('title', 'Moje subskrypcje')
 
 @section('center-column')
     <div class="row">
         <div class="col">
             <form method="GET" action="{{ route('subscriptions.index') }}">
                 @csrf
-                <label for="filter" class="form-label fw-bold">Filtruj subskrybcje</label>
+                <label for="filter" class="form-label fw-bold">Filtruj subskrypcje</label>
 
                 <select name="filter" class="form-select w-auto" onchange="this.form.submit()">
                     <option value="all" {{ $filter === 'all' ? 'selected' : '' }}>Wszystkie</option>
@@ -18,7 +18,7 @@
 
             @if ($subscriptions->isEmpty())
                 <div class="alert alert-warning mt-3" role="alert">
-                    Brak subskrybcji do wyświetlenia.
+                    Brak subskrypcji do wyświetlenia.
                 </div>
             @else
                 <div class="table-responsive">

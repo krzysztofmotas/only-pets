@@ -92,7 +92,8 @@ class HomeController extends Controller
     {
         $posts->transform(function ($post) use ($user) {
             if ($user) {
-                $post->is_subscribed = ($user->id == $post->user->id || $user->isAdmin()) ? true : $user->hasActiveSubscriptionFor($post->user_id);
+                $post->is_subscribed = ($user->id == $post->user->id || $user->isAdmin())
+                ? true : $user->hasActiveSubscriptionFor($post->user_id);
             } else {
                 $post->is_subscribed = false;
             }

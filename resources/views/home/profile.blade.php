@@ -33,9 +33,9 @@
                             <a href="{{ route('subscriptions.buy', $user) }}" class="btn btn-success" role="button">
                                 <i class="bi bi-bag-heart-fill fs-5 me-2"></i>
                                 @can('has-active-subscription', $user->id)
-                                    Przedłuż subskrybcję
+                                    Przedłuż subskrypcję
                                 @else
-                                    Kup subskrybcję
+                                    Kup subskrypcję
                                 @endcan
                             </a>
                         @endif
@@ -122,7 +122,7 @@
                                             </a>
                                         </div>
                                         <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
-                                            data-bs-title="Data początku subskrybcji">
+                                            data-bs-title="Data początku subskrypcji">
                                             {{ \Carbon\Carbon::parse($subscription->started_at)->translatedFormat('d F Y, H:i') }}
                                             <span class="badge bg-secondary"><i class="bi bi-calendar-check align-middle"></i></span>
                                         </button>
