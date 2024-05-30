@@ -2,8 +2,6 @@
 
 if %errorlevel% neq 0 msg %username% "Nie udalo sie utworzyc bazy danych." && exit /b %errorlevel%
 
-php -r "copy('.env.example', '.env');"
-
 call composer install
 
 call php artisan migrate:fresh --seed

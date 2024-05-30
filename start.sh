@@ -19,8 +19,6 @@ if [ $? -eq 1 ]; then
    exit
 fi
 
-php -r "copy('.env.example', '.env');"
-
 composer install
 
 php artisan migrate:fresh --seed
