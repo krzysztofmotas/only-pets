@@ -7,6 +7,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SubscriptionController;
+use App\Http\Controllers\AdminController;
 
 Route::controller(HomeController::class)
     ->group(function () {
@@ -38,6 +39,14 @@ Route::controller(UserController::class)
         Route::delete('/settings/avatar/delete', 'deleteAvatar')->name('settings.delete.avatar');
         Route::put('/settings/background', 'updateBackground')->name('settings.background');
         Route::delete('/settings/background/delete', 'deleteBackground')->name('settings.delete.background');
+    });
+
+Route::controller(AdminController::class)
+    ->middleware('can:admin')
+    ->group(function () {
+        Route::get('/users', 'users')->name('admin.users.index');
+        Route::get('/users/{user:name}', 'user')->name('admin.users.edit');
+        Route::delete('/users/delete/{user:name}', 'delete')->name('admin.users.delete');
     });
 
 Route::controller(LoginController::class)

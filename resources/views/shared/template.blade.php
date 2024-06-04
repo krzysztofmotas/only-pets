@@ -43,7 +43,10 @@
 </head>
 
 <body>
-    @include('shared.success-toast')
+    <div class="vstack gap-3 position-fixed bottom-0 end-0 mb-3 me-3" style="z-index: 3000;">
+        @include('shared.success-toast')
+        @include('shared.error-toast')
+    </div>
 
     @yield('body-content')
     @stack('body-scripts')

@@ -68,9 +68,13 @@
             </style>
 
             <div class="container mt-12" id="center-container">
-                @hasSection('title')
-                    <h4 class="mb-3">@yield('title')</h4>
-                @endif
+                <h4 class="mb-3">
+                    @hasSection('title')
+                        <span class="text-muted fw-light">Strona główna /</span> @yield('title')
+                    @else
+                        Strona główna
+                    @endif
+                </h4>
 
                 @yield('center-column')
             </div>

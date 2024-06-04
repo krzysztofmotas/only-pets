@@ -213,9 +213,9 @@
 
                         @can('admin')
                             <li>
-                                <a class="dropdown-item" href="#">
+                                <a class="dropdown-item" href="{{ route('admin.users.index') }}">
                                     <i class="bi bi-sliders fs-5 me-2 text-danger"></i>
-                                    Panel administratora
+                                    Zarządzanie użytkownikami
                                 </a>
                             </li>
                         @endcan

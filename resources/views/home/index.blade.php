@@ -1,7 +1,5 @@
 @extends('home.template')
 
-@section('title', 'Strona główna')
-
 @section('center-column')
     @auth
         @include('home.new-post')

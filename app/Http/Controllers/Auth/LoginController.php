@@ -37,7 +37,7 @@ class LoginController extends Controller
 
         return back()
             ->withErrors(['email' => 'Nieprawidłowe dane logowania. Sprawdź wprowadzone informacje i spróbuj ponownie.'])
-            ->onlyInput('email');
+            ->withInput();
     }
 
     public function logout(Request $request)

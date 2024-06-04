@@ -37,8 +37,10 @@
                                     <th class="align-middle" scope="row">{{ $key + 1 }}</th>
                                     <td class="align-middle">
                                         <a href="{{ route('profile', $subscription->subscribedUser) }}" class="text-decoration-none">
-                                            <x-avatar :user="$subscription->subscribedUser" size="40px" />
-                                            {{ $subscription->subscribedUser->name }}
+                                            <div class="d-flex flex-row gap-2 align-items-center">
+                                                <x-avatar :user="$subscription->subscribedUser" size="40px" />
+                                                {{ $subscription->subscribedUser->name }}
+                                            </div>
                                         </a>
                                     </td>
 
