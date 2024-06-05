@@ -3,7 +3,7 @@
         @csrf
         @method('put')
         <input id="background-input" type="file" name="background" accept="image/*"
-            class="form-control w-auto @error('background') is-invalid @enderror">
+            class="form-control mw-100 w-auto @error('background') is-invalid @enderror">
 
         @error('background')
             <span class="invalid-feedback mt-3" role="alert">

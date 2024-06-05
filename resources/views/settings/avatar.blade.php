@@ -3,7 +3,7 @@
         @csrf
         @method('put')
         <input id="avatar-input" type="file" name="avatar" accept="image/*"
-            class="form-control w-auto @error('avatar') is-invalid @enderror">
+            class="form-control mw-100 w-auto @error('avatar') is-invalid @enderror">
 
         @error('avatar')
             <span class="invalid-feedback mt-3" role="alert">

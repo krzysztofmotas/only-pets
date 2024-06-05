@@ -68,9 +68,6 @@
                                     </td>
 
                                     <td>
-
-
-
                                         <button class="btn btn-danger" role="button" data-bs-toggle="modal"
                                             data-bs-target="#deleteModal{{ $user->name }}">Usuń</button>
 

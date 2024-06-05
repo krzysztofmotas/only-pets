@@ -47,6 +47,11 @@ Route::controller(AdminController::class)
         Route::get('/users', 'users')->name('admin.users.index');
         Route::get('/users/{user:name}', 'user')->name('admin.users.edit');
         Route::delete('/users/delete/{user:name}', 'delete')->name('admin.users.delete');
+        Route::put('/users/update/{user:name}', 'update')->name('admin.users.update');
+        Route::put('/users/update-avatar/{user:name}', 'updateAvatar')->name('admin.users.update.avatar');
+        Route::put('/users/update-background/{user:name}', 'updateBackground')->name('admin.users.update.background');
+        Route::delete('/users/delete-avatar/{user:name}', 'deleteAvatar')->name('admin.users.delete.avatar');
+        Route::delete('/users/delete-background/{user:name}', 'deleteBackground')->name('admin.users.delete.background');
     });
 
 Route::controller(LoginController::class)
