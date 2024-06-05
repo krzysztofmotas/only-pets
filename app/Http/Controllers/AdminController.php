@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 
 class AdminController extends Controller
 {
@@ -47,8 +48,7 @@ class AdminController extends Controller
             Storage::delete('backgrounds/' . $user->background);
         }
 
-        $posts = $user->posts();
-
+        $posts = $user->posts;
         foreach ($posts as $post) {
             $attachments = $post->attachments;
             foreach ($attachments as $attachment) {
@@ -56,9 +56,8 @@ class AdminController extends Controller
                 $attachment->delete();
             }
             $post->reactions()->delete();
+            $post->delete();
         }
-
-        $posts->delete();
         $user->subscriptions()->delete();
         $user->subscribedBy()->delete();
 
