@@ -7,6 +7,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -56,8 +57,19 @@ class AdminController extends Controller
                 $attachment->delete();
             }
             $post->reactions()->delete();
-            $post->delete();
+            // $post->delete();
         }
+
+        $id = $user->id;
+        DB::table('jobs')
+            ->join('subscriptions', 'jobs.id', '=', 'subscriptions.job_id')
+            ->where(function ($query) use ($id) {
+                $query->where('subscriptions.subscriber_user_id', $id)
+                    ->orWhere('subscriptions.subcribed_user_id', $id);
+            })
+            ->delete();
+
+        $user->posts()->delete();
         $user->subscriptions()->delete();
         $user->subscribedBy()->delete();
 

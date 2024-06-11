@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Carbon;
 
 class Subscription extends Model
 {
@@ -14,6 +15,8 @@ class Subscription extends Model
         'started_at',
         'end_at',
         'show_notification',
+        'auto_renew',
+        'job_id'
     ];
 
     public $timestamps = false;
@@ -26,5 +29,10 @@ class Subscription extends Model
     public function subscribedUser(): BelongsTo
     {
         return $this->belongsTo(User::class, 'subscribed_user_id');
+    }
+
+    public function isExpired(): bool
+    {
+        return Carbon::parse($this->end_at)->isPast();
     }
 }

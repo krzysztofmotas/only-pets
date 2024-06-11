@@ -19,11 +19,6 @@ class PostPolicy
         return null;
     }
 
-    public function store(User $user): bool
-    {
-        return $user !== null;
-    }
-
     public function update(User $user, Post $post): bool
     {
         return $user->id === $post->user_id;

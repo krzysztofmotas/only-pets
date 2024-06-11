@@ -49,6 +49,14 @@
                     </li>
                 @endauth
 
+                <li class="nav-item d-flex">
+                    <a href="{{ route('ranks') }}"
+                        class="nav-link link-body-emphasis {{ Route::current()->getName() === 'ranks' ? 'active' : '' }}">
+                        <i class="bi bi-stars fs-5"></i>
+                        <span class="d-sm-none d-xl-inline ms-2">Rangi</span>
+                    </a>
+                </li>
+
                 <li class="nav-item d-flex d-lg-none">
                     <a href="{{ route('search', ['nav' => true]) }}"
                         class="nav-link link-body-emphasis {{ Route::current()->getName() === 'search' ? 'active' : '' }}">

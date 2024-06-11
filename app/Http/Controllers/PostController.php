@@ -19,7 +19,10 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        // $this->authorize('store');
+        if (!Auth::check()) {
+            return response()->json(null, 403);
+        }
+
         $hasAttachments = $request->has('attachments');
 
         $rules = [

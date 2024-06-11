@@ -55,22 +55,38 @@
 
                     <div class="col-md-6">
                         <div class="form-floating mb-3">
-                            <input type="text" class="form-control" id="subscription-price" name="price"
-                                value="{{ env('SUBSCRIPTION_MONTH_PRICE') }} zł" readonly>
-                            <label for="subscription-price" class="form-label">Cena subskrypcji</label>
+                            <div class="form-control" id="subscription-price-display" readonly></div>
+                            {{-- <input type="hidden" id="subscription-price" name="price"> --}}
+
+                            <label for="subscription-price-display" class="form-label">Cena subskrypcji</label>
                         </div>
                     </div>
 
                     @push('body-scripts')
                         <script>
                             const subscriptionLength = document.getElementById('subscription-length');
-                            const subscriptionPrice = document.getElementById('subscription-price');
+                            // const subscriptionPrice = document.getElementById('subscription-price');
+                            const subscriptionPriceDisplay = document.getElementById('subscription-price-display');
+                            const subscriptionMonthPrice = {{ env('SUBSCRIPTION_MONTH_PRICE') }};
+                            const discount = {{ $rank->getSubscriptionDiscount() }};
 
-                            subscriptionLength.addEventListener('change', function() {
-                                const selectedLength = parseInt(this.value);
-                                const calculatedPrice = selectedLength * {{ env('SUBSCRIPTION_MONTH_PRICE') }};
-                                subscriptionPrice.value = calculatedPrice + ' zł';
-                            });
+                            function updatePrice() {
+                                const selectedLength = parseInt(subscriptionLength.value);
+                                const originalPrice = selectedLength * subscriptionMonthPrice;
+                                const discountedPrice = originalPrice - (originalPrice * (discount / 100));
+
+                                if (discount > 0) {
+                                    subscriptionPriceDisplay.innerHTML =
+                                        `<span class="text-danger text-decoration-line-through">${originalPrice.toFixed(2)} zł</span> <span class="text-success">${discountedPrice.toFixed(2)} zł</span>`;
+                                    // subscriptionPrice.value = discountedPrice.toFixed(2);
+                                } else {
+                                    subscriptionPriceDisplay.textContent = `${originalPrice.toFixed(2)} zł`;
+                                    // subscriptionPrice.value = originalPrice.toFixed(2);
+                                }
+                            }
+
+                            subscriptionLength.addEventListener('change', updatePrice);
+                            document.addEventListener('DOMContentLoaded', updatePrice);
                         </script>
                     @endpush
                 </div>
@@ -145,6 +161,13 @@
                         </div>
                     </div>
                 </div>
+
+                @if ($rank->getSubscriptionDiscount() > 0)
+                    <div class="alert alert-primary" role="alert">
+                        Twoja ranga to <strong>{{ $rank->getName() }}</strong>, więc otrzymujesz zniżkę
+                        <strong>{{ $rank->getSubscriptionDiscount() }}%</strong> na miesięczną subskrypcję!
+                    </div>
+                @endif
 
                 <button class="btn btn-primary" type="submit">Przejdź do płatności</button>
             </form>

@@ -71,6 +71,12 @@
 
                         <p>
                             <span class="badge text-bg-primary me-2 fs-6" data-bs-toggle="tooltip"
+                                data-bs-title="{{ $user->getRank()->getDescription() }}"><i class="bi bi-{{ $user->getRank()->getIcon() }}"></i></span>
+                            {{ $user->getRank()->getName() }}
+                        </p>
+
+                        <p>
+                            <span class="badge text-bg-primary me-2 fs-6" data-bs-toggle="tooltip"
                                 data-bs-title="Data rejestracji"><i class="bi bi-calendar-check-fill"></i></span>
                             {{ $user->created_at->translatedFormat('d F Y, H:i') }}
                         </p>
@@ -116,16 +122,22 @@
                                         <div>
                                             <a class="text-decoration-none"
                                                 href="{{ route('profile', $subscription->subscriber) }}">
-                                                <x-avatar :user="$subscription->subscriber" size="40px" />
-                                                {{ $subscription->subscriber->display_name }}
-                                                <span
-                                                    class="badge bg-secondary">{{ $subscription->subscriber->name }}</span>
+
+                                                <div class="d-flex flex-row gap-2 align-items-center">
+                                                    <x-avatar :user="$subscription->subscriber" size="40px" />
+                                                    {{ $subscription->subscriber->display_name }}
+
+                                                    <span class="badge bg-secondary">
+                                                        {{ $subscription->subscriber->name }}
+                                                    </span>
+                                                </div>
                                             </a>
                                         </div>
                                         <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="tooltip"
                                             data-bs-title="Data początku subskrypcji">
                                             {{ \Carbon\Carbon::parse($subscription->started_at)->translatedFormat('d F Y, H:i') }}
-                                            <span class="badge bg-secondary"><i class="bi bi-calendar-check align-middle"></i></span>
+                                            <span class="badge bg-secondary"><i
+                                                    class="bi bi-calendar-check align-middle"></i></span>
                                         </button>
                                     </li>
                                 @endforeach

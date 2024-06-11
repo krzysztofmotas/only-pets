@@ -73,7 +73,6 @@
         const submitButton = document.getElementById('post-submit-button');
         const newPostForm = document.getElementById('post-create-form');
         const textarea = document.getElementById('post-textarea');
-        const csrfToken = document.head.querySelector('meta[name="csrf-token"]').content;
         const attachmentsContainer = document.getElementById('post-carousel-attachments-container');
         const carousel = document.getElementById('post-carousel');
         const controlsContainer = document.getElementById('post-carousel-controls-container');
@@ -107,14 +106,11 @@
                 formData.append('attachments[]', a);
             }
 
-            // formData.append('_token', csrfToken);
-            // formData.append('_method', 'post');
-
             try {
                 const response = await fetch('{{ route('post.store') }}', {
                     method: 'post',
                     headers: {
-                        'X-CSRF-TOKEN': csrfToken
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
                     },
                     body: formData
                 });

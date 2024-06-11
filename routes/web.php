@@ -14,10 +14,14 @@ Route::controller(HomeController::class)
         Route::get('/', 'index')->name('home');
         Route::get('/search/{nav?}', 'search')->name('search');
         Route::get('/profile/{user:name}', 'profile')->name('profile');
+        Route::get('/ranks', 'ranks')->name('ranks');
 
         Route::get('/notifications', 'getNotifications')->middleware('auth')->name('notifications');
         Route::get('/notifications/clear', 'clearNotifications')->middleware('auth')->name('notifications.clear');
     });
+
+
+Route::post('/subscriptions/switch-auto-renew', [SubscriptionController::class, 'switchAutoRenew'])->name('subscriptions.switch.auto.renew');
 
 Route::controller(SubscriptionController::class)
     ->middleware('auth')

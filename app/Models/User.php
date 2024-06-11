@@ -6,6 +6,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Carbon;
+use App\Enums\RankEnum;
 
 class User extends Authenticatable
 {
@@ -152,5 +153,10 @@ class User extends Authenticatable
             ->where('show_notification', true)
             ->where('end_at', '<=', $oneWeekFromNow)
             ->count();
+    }
+
+    public function getRank(): RankEnum
+    {
+        return RankEnum::calculateRank($this);
     }
 }
