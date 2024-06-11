@@ -21,7 +21,7 @@ return new class extends Migration
             $table->dateTime('started_at');
             $table->dateTime('end_at');
             $table->boolean('auto_renew')->default(false);
-            $table->foreignId('job_id')->nullable()->constrained('jobs');
+            $table->foreignId('job_id')->nullable()->constrained('jobs')->onDelete('cascade');
         });
     }
 
