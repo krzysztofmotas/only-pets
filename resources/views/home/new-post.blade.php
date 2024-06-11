@@ -137,7 +137,7 @@
 
         postAttachmentsInput.addEventListener('change', (event) => {
             const files = event.target.files;
-            const max = @json(env('MAX_POST_ATTACHMENTS'));
+            const max = {{ Auth::user()->getRank()->getMaxPostAttachments() }};
 
             for (const file of files) {
                 if (attachments.length >= max) {
@@ -152,9 +152,9 @@
                     continue;
                 }
 
-                console.log(file.size);
+                // console.log(file.size);
 
-                if (file.size > 2048) {
+                if (file.size > 2097152) {
                     errors.push(`Rozmiar pliku ${file.name} przekracza limit 2MB.`);
                     continue;
                 }
@@ -220,7 +220,7 @@
 
                 if (index !== -1) {
                     const prevItem = carouselItem.previousElementSibling;
-                    console.log(prevItem);
+                    // console.log(prevItem);
 
                     if (prevItem) {
                         prevItem.classList.add('active');

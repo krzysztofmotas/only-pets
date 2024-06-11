@@ -33,6 +33,11 @@ class HomeController extends Controller
         return view('home.index', compact('suggestedUsers'));
     }
 
+    public function ranks()
+    {
+        return view('home.ranks');
+    }
+
     public function search(Request $request, $nav = false)
     {
         if ($nav) {

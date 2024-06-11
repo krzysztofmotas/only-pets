@@ -27,12 +27,16 @@ class PostController extends Controller
 
         $rules = [
             'attachments' => 'array|max:' . env('MAX_POST_ATTACHMENTS'),
-            'attachments.*' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
+            'attachments.*' => 'image|mimes:jpeg,png,jpg,gif|max:2097152', // 2mb
             'text' => $hasAttachments ? '' : 'required|' . 'string|max:255',
         ];
 
+
+        /** @var \App\Models\User $user **/
+        $user = Auth::user();
+
         $messages = [
-            'attachments.max' => 'Możesz dodać maksymalnie ' . env('MAX_POST_ATTACHMENTS') . ' załączników.',
+            'attachments.max' => 'Możesz dodać maksymalnie ' . $user->getRank()->getMaxPostAttachments() . ' załączników.',
             'attachments.*.max' => 'Załącznik nr :index nie może być większy niż :max kilobajtów.',
             'attachments.*.mimes' => 'Załącznik nr :index musi być plikiem typu: :values.',
             'attachments.*.image' => 'Załącznik nr :index musi być obrazem.',
@@ -48,9 +52,6 @@ class PostController extends Controller
             ], 422);
         }
 
-        $user = Auth::user();
-
-        /** @var \App\Models\User $user **/
         $post = $user->posts()->create([
             'text' => $request->input('text'),
         ]);

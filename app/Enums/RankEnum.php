@@ -32,7 +32,6 @@ enum RankEnum: string
 
         // return self::Novice;
         return self::Advanced;
-
         // return self::Intermediate;
     }
 
@@ -40,17 +39,17 @@ enum RankEnum: string
     {
         return match ($this) {
             self::Novice => 'Nowy użytkownik',
-            self::Intermediate => 'Opublikuj co najmniej 25 postów i bądź członkiem naszej społeczności przynajmniej przez 2 tygodnie.',
-            self::Advanced => 'Opublikuj co najmniej 50 postów i bądź członkiem naszej społeczności przynajmniej przez 2 miesiące.',
+            self::Intermediate => 'Opublikuj co najmniej 25 postów i bądź członkiem społeczności OnlyPets przynajmniej przez 2 tygodnie.',
+            self::Advanced => 'Opublikuj co najmniej 50 postów i bądź członkiem społeczności OnlyPets przynajmniej przez 2 miesiące.',
         };
     }
 
     public function getIcon(): string
     {
         return match ($this) {
-            self::Novice => 'lightning',
+            self::Novice => 'star',
             self::Intermediate => 'star-half',
-            self::Advanced => 'star',
+            self::Advanced => 'star-fill',
         };
     }
 
