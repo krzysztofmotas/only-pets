@@ -22,16 +22,16 @@ enum RankEnum: string
         $now = Carbon::now();
         $diffInDays = $now->diffInDays($registeredAt);
 
-        // if ($diffInDays < 14) {
-        //     return self::Novice;
-        // } elseif ($diffInDays >= 14 && $diffInDays < 60) {
-        //     return $user->posts()->count() >= 25 ? self::Intermediate : self::Novice;
-        // } else {
-        //     return $user->posts()->count() >= 50 ? self::Advanced : self::Intermediate;
-        // }
+        if ($diffInDays < 14) {
+            return self::Novice;
+        } elseif ($diffInDays >= 14 && $diffInDays < 60) {
+            return $user->posts()->count() >= 25 ? self::Intermediate : self::Novice;
+        } else {
+            return $user->posts()->count() >= 50 ? self::Advanced : self::Intermediate;
+        }
 
         // return self::Novice;
-        return self::Advanced;
+        // return self::Advanced;
         // return self::Intermediate;
     }
 

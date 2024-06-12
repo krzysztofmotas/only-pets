@@ -70,13 +70,14 @@
                         @endif
 
                         <p>
-                            <span class="badge text-bg-primary me-2 fs-6" data-bs-toggle="tooltip"
-                                data-bs-title="{{ $user->getRank()->getDescription() }}"><i class="bi bi-{{ $user->getRank()->getIcon() }}"></i></span>
+                            <span class="badge text-bg-primary me-2 fs-6" data-bs-toggle="tooltip" data-bs-placement="left"
+                                data-bs-title="{{ $user->getRank()->getDescription() }}"><i
+                                    class="bi bi-{{ $user->getRank()->getIcon() }}"></i></span>
                             {{ $user->getRank()->getName() }}
                         </p>
 
                         <p>
-                            <span class="badge text-bg-primary me-2 fs-6" data-bs-toggle="tooltip"
+                            <span class="badge text-bg-primary me-2 fs-6" data-bs-toggle="tooltip" data-bs-placement="left"
                                 data-bs-title="Data rejestracji"><i class="bi bi-calendar-check-fill"></i></span>
                             {{ $user->created_at->translatedFormat('d F Y, H:i') }}
                         </p>
@@ -84,7 +85,8 @@
                         @if ($user->location)
                             <p>
                                 <span class="badge text-bg-primary me-2 fs-6" data-bs-toggle="tooltip"
-                                    data-bs-title="Miejscowość"><i class="bi bi-house-door-fill"></i></span>
+                                    data-bs-placement="left" data-bs-title="Miejscowość"><i
+                                        class="bi bi-house-door-fill"></i></span>
                                 {{ $user->location }}
                             </p>
                         @endif
@@ -92,7 +94,8 @@
                         @if ($user->website_url)
                             <p>
                                 <span class="badge text-bg-primary me-2 fs-6" data-bs-toggle="tooltip"
-                                    data-bs-title="Strona internetowa"><i class="bi bi-globe-americas"></i></span>
+                                    data-bs-placement="left" data-bs-title="Strona internetowa"><i
+                                        class="bi bi-globe-americas"></i></span>
                                 <a href="{{ $user->website_url }}">{{ $user->website_url }}</a>
                             </p>
                         @endif
