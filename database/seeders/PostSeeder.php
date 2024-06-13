@@ -53,5 +53,14 @@ class PostSeeder extends Seeder
         foreach ($posts as $postData) {
             Post::create($postData);
         }
+
+        $post = [
+            'user_id' => 1,
+            'text' => 'Hejka wszystkim! 🦜'
+        ];
+
+        for ($i = 0; $i < 50; $i++) {
+            Post::create($post);
+        }
     }
 }

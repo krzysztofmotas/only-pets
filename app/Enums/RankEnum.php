@@ -20,7 +20,7 @@ enum RankEnum: string
     {
         $registeredAt = $user->created_at;
         $now = Carbon::now();
-        $diffInDays = $now->diffInDays($registeredAt);
+        $diffInDays = abs($now->diffInDays($registeredAt));
 
         if ($diffInDays < 14) {
             return self::Novice;

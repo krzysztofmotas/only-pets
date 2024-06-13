@@ -107,7 +107,8 @@ class SubscriptionController extends Controller
                     'subscribed_user_id' => $user->id,
                     'started_at' => now(),
                     'end_at' => $endDateTime->toDateTime(),
-                    'price' => $price
+                    'price' => $price,
+                    // 'auto_renew' => 1,
                 ]);
 
                 $toastMessage = 'Kupiłeś subskrypcję dla użytkownika <strong>' . $user->name . '</strong>!<br><br>Data ważności: ';

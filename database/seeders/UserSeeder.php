@@ -80,6 +80,7 @@ class UserSeeder extends Seeder
         $user = User::find(1);
         if ($user) {
             $user->role_id = User::ROLE_ADMIN;
+            $user->created_at = '2024-04-01 08:54:46';
             $user->save();
         }
     }
