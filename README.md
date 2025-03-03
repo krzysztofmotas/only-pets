@@ -93,30 +93,30 @@ Baza danych aplikacji obejmuje kluczowe tabele:
 ## Zrzuty ekranu
 ### Strona główna
 <div style="display: flex; flex-direction: row; gap: 10px;">
-    <img src="screens/Home.png" style="height: 400px; width: auto; object-fit: cover; border: 1px solid #000;">
-    <img src="screens/HomeMobile.png" style="height: 400px; width: auto; object-fit: cover; border: 1px solid #000;">
+    <img src="screens/Home.png" style="height: 400px; width: auto; object-fit: cover;">
+    <img src="screens/HomeMobile.png" style="height: 400px; width: auto; object-fit: cover;">
 </div>
 
 ### Profil użytkownika
 <div style="display: flex; flex-direction: row; gap: 10px;">
-    <img src="screens/Profile.png" style="height: 400px; width: auto; object-fit: cover; border: 1px solid #000;">
-    <img src="screens/ProfileMobile.png" style="height: 400px; width: auto; object-fit: cover; border: 1px solid #000;">
+    <img src="screens/Profile.png" style="height: 400px; width: auto; object-fit: cover;">
+    <img src="screens/ProfileMobile.png" style="height: 400px; width: auto; object-fit: cover;">
 </div>
 
 ### Subskrypcje
 <div style="display: flex; flex-direction: row; gap: 10px;">
-    <img src="screens/Subscription.png" style="height: 400px; width: auto; object-fit: cover; border: 1px solid #000;">
-    <img src="screens/SubscriptionMobile.png" style="height: 400px; width: auto; object-fit: cover; border: 1px solid #000;">
+    <img src="screens/Subscription.png" style="height: 400px; width: auto; object-fit: cover;">
+    <img src="screens/SubscriptionMobile.png" style="height: 400px; width: auto; object-fit: cover;">
 </div>
 
 <div style="display: flex; flex-direction: row; gap: 10px; margin-top: 10px;">
-    <img src="screens/MySubscriptions.png" style="height: 400px; width: auto; object-fit: cover; border: 1px solid #000;">
-    <img src="screens/MySubscriptionsMobile.png" style="height: 400px; width: auto; object-fit: cover; border: 1px solid #000;">
+    <img src="screens/MySubscriptions.png" style="height: 400px; width: auto; object-fit: cover;">
+    <img src="screens/MySubscriptionsMobile.png" style="height: 400px; width: auto; object-fit: cover;">
 </div>
 
 ### Rangi
 <div style="display: flex; flex-direction: row; gap: 10px;">
-    <img src="screens/Ranks.png" style="height: 400px; width: auto; object-fit: cover; border: 1px solid #000;">
-    <img src="screens/RanksMobile.png" style="height: 400px; width: auto; object-fit: cover; border: 1px solid #000;">
+    <img src="screens/Ranks.png" style="height: 400px; width: auto; object-fit: cover;">
+    <img src="screens/RanksMobile.png" style="height: 400px; width: auto; object-fit: cover;">
 </div>
 
